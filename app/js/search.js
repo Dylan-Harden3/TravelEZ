@@ -66,6 +66,6 @@ function search(e) {
 }
 
 function setSearch() {
-    var search = document.getElementById('txt').value;
+    var search = document.getElementById('locationInput').value;
     localStorage.setItem('search',search)
 }
