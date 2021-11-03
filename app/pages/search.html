@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/styles.css">
+    <title>Search Vacations</title>
+</head>
+<body>
+    <div class="bg-slide">
+        <nav class="navbar navbar-expand-sm bg-white opacity-90 navbar-dark sticky-top py-3">
+            <div class="container">
+                <a class="text-red nav-text" href="../index.html">
+                   TravelEZ
+                </a>
+              <button class="navbar-toggler border-navy" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                <span class="navbar-toggler-icon bg-navy"></span>
+              </button>
+              <div class="collapse navbar-collapse mx-5 justify-content-center" id="navmenu">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a href="" class="nav-link mx-4 text-navy">about us</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="" class="nav-link mx-4 text-navy">faq</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="" class="nav-link mx-4 text-navy">contact</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        <div class="container flex-center">
+            <div class="jumbotron mt-4 rounded-3 w-100">
+                <div class="d-flex justify-content-around align-items-center">
+                    <a href="../index.html">
+                        <img src="../branding/logoAP.PNG" alt="" width="100px" height="100px">
+                    </a>
+                    <h1 class="text-navy float-left">Where will you go?</h1>
+                </div>
+                <div class="d-flex justify-content-center align-items-center icon-group">
+                    <img src="../img/icons/location.png" width="40px" height="40px" alt="" class="outline-navy icon" id="location">
+                    <img src="../img/icons/hotel.png" width="40px" height="40px" alt="" class="icon" id="hotel">
+                    <img src="../img/icons/airplane.png" width="40px" height="40px" alt="" class="icon" id="flight">
+                </div>
+                <form class="input-group px-5 py-3 selected" id="location-search" action="result.html">
+                    <input type="text" class="form-control border-navy rounded" placeholder="Enter Destination" id="txt">
+                    <input type="submit" class="btn bg-red btn-lg text-white ml-1" value="Search">
+                </form>
+                <form class="input-group px-5 py-3 not-selected" id="hotel-search" action="result.html">
+                    <input type="text" class="form-control border-navy rounded" placeholder="Destination">
+                    <input type="text" class="form-control border-navy rounded" placeholder="Check-in" onfocus="(this.type='date')">
+                    <input type="text" class="form-control border-navy rounded" placeholder="Check-out" onfocus="(this.type='date')">
+                    <input type="submit" class="btn bg-red btn-lg text-white ml-1" value="Search">
+                </form>
+                <form class="input-group px-5 py-3 not-selected" id="flight-search" action="result.html">
+                    <input type="text" class="form-control border-navy rounded" placeholder="From">
+                    <input type="text" class="form-control border-navy rounded" placeholder="To">
+                    <input type="text" class="form-control border-navy rounded" placeholder="date" onfocus="(this.type='date')">
+                    <input type="submit" class="btn bg-red btn-lg text-white ml-1" value="Search">
+                </form>
+                <h5 class="mt-2">Out of ideas?</h5>
+                <a href="" class="btn btn-sm bg-navy text-white mt-2">Take Our Quiz</a>
+            </div>
+        </div>
+        <!-- Popular Vacations Section -->
+        <div class="container flex-center text-navy">
+            <div class="jumbotron w-100">
+                <h2 class="text-navy mb-5">Popular Vacations</h1>
+                    <div class="row mt-3">
+                        <div class="col-sm">
+                            <div class="card border-navy" style="width: 18rem;">
+                                <img class="card-img-top" src="../img/nyc.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                  <h5 class="card-title">New York City</h5>
+                                  <p class="card-text">Go for a walk in Central Park, check out the Statue of Liberty, or catch a Yankees game.</p>
+                                  <a href="#" class="btn bg-navy text-white">View Vacation</a>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="card border-navy" style="width: 18rem;">
+                                <img class="card-img-top" src="../img/vegas.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                  <h5 class="card-title">Las Vegas</h5>
+                                  <p class="card-text">Test your luck at the casinos or enjoy its extravagant resorts and restaurants.</p>
+                                  <a href="#" class="btn bg-navy text-white">View Vacation</a>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="card border-navy" style="width: 18rem;">
+                                <img class="card-img-top" src="../img/dc.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                  <h5 class="card-title">Washington DC</h5>
+                                  <p class="card-text">Visit iconic landmarks like the Lincoln Memorial, the Capital, or the Whitehouse.</p>
+                                  <a href="#" class="btn bg-navy text-white">View Vacation</a>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+    crossorigin="anonymous"></script>
+    <script src="../js/search.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+
+.jumbotron {
+    background-color: #fff;
+    opacity: 90%;
+    border: 1px solid #0C1248;
+    padding: 0;
+}
+
+.icon-group img {
+    margin: 0 3px;
+}
+
+#quiz-nav:hover {
+    border: none;
+}
+
+
+@media screen and (max-width: 991.98px){
+    .quiz-link {
+        display: none !important;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    #quiz-nav {
+        display: none;
+    }
+}
