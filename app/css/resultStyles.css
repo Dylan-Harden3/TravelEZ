@@ -19,6 +19,12 @@
     .quiz-link {
         display: none !important;
     }
+    #filter {
+        display: none;
+    }
+    #filler {
+        display: none;
+    }
 }
 
 @media screen and (min-width: 992px) {

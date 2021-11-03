@@ -60,12 +60,20 @@ for(var i = 0 ; i < searchBars.length ; i++) {
     searchBars[i].onclick = setSearch;
 }
 
-function search(e) {
-    e.preventDefault();
-    console.log('submit');
-}
+async function setSearch() {
+    var searchFields = document.getElementsByClassName('txt');
+    var search = "";
+    console.log('setting search')
+    for(var i = 0 ; i < searchFields.length ; i++) {
+        if(searchFields[i].parentElement.classList.contains('selected')){
+            if(i == searchFields.length-1) {
+                search += searchFields[i].value;
+            }else {
+                search += searchFields[i].value + ",";
 
-function setSearch() {
-    var search = document.getElementById('txt').value;
+            }
+        }
+    }
+    search = search.substr(0,search.length - 1);
     localStorage.setItem('search',search)
 }

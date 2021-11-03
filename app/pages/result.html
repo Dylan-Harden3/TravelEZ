@@ -70,7 +70,7 @@
       </div>
       <div class="container">
         <div class="row">
-          <div class="col"></div>
+          <div class="col" id="filler"></div>
           <div class="col">
             <div class="jumbotron">
               <form action="" class="input-group text-center">
@@ -83,7 +83,7 @@
             <div class="jumbotron bg-navy text-right">
               <div class="dropdown w-100">
                 <button class="btn bg-red text-white dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                  Filter
+                  Sort
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                   <li><button class="dropdown-item" type="button">Action</button></li>
@@ -95,14 +95,18 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-4">
+          <div class="col-4" id="filter">
             <div class="jumbotron">
               
             </div>
           </div>
-          <div class="col-8">
+          <div class="col-8" id="results">
             <div class="jumbotron">
-              
+              <p id="time-results">
+                
+              </p>
+              <p id="weather-results">
+              </p>
             </div>
           </div>
         </div>
