@@ -9,40 +9,71 @@ window.onload = () => {
 }
 
 async function search(text)  {
+<<<<<<< HEAD
     var params = text.split(',');
     if(params.length == 1) {
         getWeather(text);
         getTime(text);
         getHotels(text);
     }else if(localStorage.getItem('hotel-selected') == 'true'){ 
-        //makeSearch('hotel', params);
+        searchHotels(text);
     }else {
         //makeSearch('flight', params);
+=======
+    console.log(text);
+    if (localStorage.getItem('location-selected') == 'true') {
+        console.log("location");
+        getWeather(text);
+        getTime(text);
+        getHotels(text);
+    } else if (localStorage.getItem('hotel-selected') == 'true') {
+        console.log("hotel");
+        getHotels(text);
+    } else {
+        console.log("flights")
+>>>>>>> b14736b (implemented hotels/weather API; curr return as JSON)
     }
 }
 
 // weather request
 async function getWeather(text) {
     const responseWeather = await fetch(`../../getweather/${text}`);
+<<<<<<< HEAD
     const jsonWeather = await responseWeather.text();
     console.log(jsonWeather);
     setWeather(jsonWeather);
+=======
+    const jsonWeather = await responseWeather.json();
+    console.log(jsonWeather);
+>>>>>>> b14736b (implemented hotels/weather API; curr return as JSON)
 }
 
 // time request
 async function getTime(text) {
     const responseTime = await fetch(`../../gettime/${text}`);
+<<<<<<< HEAD
     const jsonTime = await responseTime.text();
     console.log(jsonTime);
     setTime(jsonTime);
+=======
+    const jsonTime = await responseTime.json();
+    console.log(jsonTime);
+>>>>>>> b14736b (implemented hotels/weather API; curr return as JSON)
 }
 
 // hotel request
 async function getHotels(text) {
     const responseHotels = await fetch(`../../gethotels/${text}`);
     const jsonHotels = await responseHotels.json();
+<<<<<<< HEAD
 
     setResults(jsonHotels);
+}
+
+//search Hotels
+async function searchHotels(text) {
+    const hotelSearchResponse = await fetch(`../../searchhotels/${text}`);
+    const jsonHotelSearch = await hotelSearchResponse.json();
 }
 
 function setWeather(text) {
@@ -107,4 +138,7 @@ function changeBar(type) {
     var newSelected = document.getElementById(realId);
     newSelected.classList.add('selected');
     newSelected.classList.remove('not-selected');
+=======
+    console.log(jsonHotels.suggestions);
+>>>>>>> b14736b (implemented hotels/weather API; curr return as JSON)
 }
