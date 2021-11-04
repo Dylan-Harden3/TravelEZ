@@ -76,4 +76,5 @@ async function setSearch() {
     }
     search = search.substr(0,search.length - 1);
     localStorage.setItem('search',search)
+    console.log(`search is now ${search}`)
 }

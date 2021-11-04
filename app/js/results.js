@@ -24,7 +24,7 @@ async function search(text)  {
 // weather request
 async function getWeather(text) {
     const responseWeather = await fetch(`../../getweather/${text}`);
-    const jsonWeather = await responseWeather.json();
+    const jsonWeather = await responseWeather.text();
     console.log(jsonWeather);
     setWeather(jsonWeather);
 }
@@ -32,7 +32,7 @@ async function getWeather(text) {
 // time request
 async function getTime(text) {
     const responseTime = await fetch(`../../gettime/${text}`);
-    const jsonTime = await responseTime.json();
+    const jsonTime = await responseTime.text();
     console.log(jsonTime);
     setTime(jsonTime);
 }
@@ -41,20 +41,36 @@ async function getTime(text) {
 async function getHotels(text) {
     const responseHotels = await fetch(`../../gethotels/${text}`);
     const jsonHotels = await responseHotels.json();
-    console.log(jsonHotels.suggestions);
+
+    setResults(jsonHotels);
 }
 
 function setWeather(text) {
     var p = document.getElementById('weather-results');
-    p.textContent = `In ${localStorage.getItem('search')}, the weather is ${text.data.current_condition[0].weatherDesc[0].value} with a temperature of ${text.data.current_condition[0].temp_F} degrees F.`;
+    p.textContent = `In ${localStorage.getItem('search')}, ${text}`;
 }
 
 function setTime(text) {
-    var t = document.getElementById('time-results');
-    var dateTime = text.data.time_zone[0].localtime;
-    var time = dateTime.split(' ')[1];
-    t.textContent = `The local time in ${localStorage.getItem('search')} is ${time}`
+    var timeP = document.getElementById('time-results');
+    timeP.textContent = `The local time in ${localStorage.getItem('search')} ${text}`;
+    var searchV = document.getElementById('search-value');
+    searchV.innerHTML = `Showing results for <br>${localStorage.getItem('search')}`;
 }
+
+function setResults(info) {
+    var hotelResults = document.getElementById('hotel-results');
+    for(var i = 0 ; i < info[0].length ; i++){
+        hotelResults.innerHTML += `<p>${info[0][i]}</p>`;
+    }
+    var hotelTitle = document.getElementById('hotel-title');
+    hotelTitle.textContent = `Popular hotels in ${localStorage.getItem('search')}`;
+    var landmarkResults = document.getElementById('landmark-results');
+    for(var i = 0 ; i < info[1].length ; i++){
+        landmarkResults.innerHTML += `<p>${info[1][i]}</p>`;
+    }
+    var hotelTitle = document.getElementById('landmark-title');
+    hotelTitle.textContent = `Popular landmarks in ${localStorage.getItem('search')}`;
+}  
 
 function setResultsSearch() {
     var locationSelected = localStorage.getItem('location-selected');

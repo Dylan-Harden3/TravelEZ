@@ -9,15 +9,19 @@ app.use(express.static('app'))
 app.get('/getweather/:search', async (req,res) => {
     var search = `https://api.worldweatheronline.com/premium/v1/weather.ashx?q=${req.params.search}&key=768a046de2124a9892f160500212610&date=today&format=json&fx=no&mca=no`;
     const response = await fetch(search);
-    const data = await response.json();  
-    res.json(data);
+    const data = await response.json(); 
+    var returnstring = `the weather is ${data.data.current_condition[0].weatherDesc[0].value} with a temperature of ${data.data.current_condition[0].temp_F} degrees F.`;
+    res.send(returnstring);
 });
 
 app.get('/gettime/:search', async (req,res) => {
     var search = `https://api.worldweatheronline.com/premium/v1/tz.ashx?key=768a046de2124a9892f160500212610&q=${req.params.search}&format=json`;
     const response = await fetch(search);
     const data = await response.json();
-    res.json(data);
+    var dateTime = data.data.time_zone[0].localtime;
+    var time = dateTime.split(' ')[1];
+    var returnstring = `is ${time}`;
+    res.send(returnstring);
 });
 
 app.get('/gethotels/:search', async(req,res) => {
@@ -29,9 +33,22 @@ app.get('/gethotels/:search', async(req,res) => {
 	    }
     });
     const data = await response.json();
-    res.json(data);
-})
-
+    var hotels = data.suggestions[1].entities;
+    var hotelsList = [];
+    for(var i = 0 ; i < hotels.length ; i++){
+        hotelsList.push(hotels[i].name);
+    }
+    var landmarks = data.suggestions[2].entities;
+    var landmarksList = [];
+    for(var i = 0 ; i < landmarks.length ; i++){
+        landmarksList.push(landmarks[i].name);
+    }
+    var combined = []
+    combined.push(hotelsList);
+    combined.push(landmarksList);
+    console.log(combined);
+    res.json(combined);
+});
 
 app.listen(process.env.port || 3000, () => {
     console.log('listening 3000')
