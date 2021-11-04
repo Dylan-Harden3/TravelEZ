@@ -4,6 +4,7 @@
     opacity: 90%;
     border: 1px solid #0C1248;
     padding: 0;
+    text-align: center;
 }
 
 .icon-group img {
@@ -18,6 +19,12 @@
 @media screen and (max-width: 991.98px){
     .quiz-link {
         display: none !important;
+    }
+    #filter {
+        display: none;
+    }
+    #filler {
+        display: none;
     }
 }
 

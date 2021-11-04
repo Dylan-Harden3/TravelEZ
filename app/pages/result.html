@@ -46,19 +46,19 @@
                       <img src="../img/icons/airplane.png" width="40px" height="40px" alt="" class="icon" id="flight">
                   </div>
                   <form class="input-group selected" id="location-search" action="result.html">
-                      <input type="text" class="form-control border-navy rounded" placeholder="Enter Destination">
+                      <input type="text" class="form-control border-navy rounded txt" placeholder="Enter Destination">
                       <input type="submit" class="btn bg-red btn-sm text-white ml-1" value="Search">
                   </form>
                   <form class="input-group not-selected" id="hotel-search" action="result.html">
-                      <input type="text" class="form-control border-navy rounded" placeholder="Destination">
-                      <input type="text" class="form-control border-navy rounded" placeholder="Check-in" onfocus="(this.type='date')">
-                      <input type="text" class="form-control border-navy rounded" placeholder="Check-out" onfocus="(this.type='date')">
+                      <input type="text" class="form-control border-navy rounded txt" placeholder="Destination">
+                      <input type="text" class="form-control border-navy rounded txt" placeholder="Check-in" onfocus="(this.type='date')">
+                      <input type="text" class="form-control border-navy rounded txt" placeholder="Check-out" onfocus="(this.type='date')">
                       <input type="submit" class="btn bg-red btn-sm text-white ml-1" value="Search">
                   </form>
                   <form class="input-group not-selected" id="flight-search" action="result.html">
-                      <input type="text" class="form-control border-navy rounded" placeholder="From">
-                      <input type="text" class="form-control border-navy rounded" placeholder="To">
-                      <input type="text" class="form-control border-navy rounded" placeholder="date" onfocus="(this.type='date')">
+                      <input type="text" class="form-control border-navy rounded txt" placeholder="From">
+                      <input type="text" class="form-control border-navy rounded txt" placeholder="To">
+                      <input type="text" class="form-control border-navy rounded txt" placeholder="date" onfocus="(this.type='date')">
                       <input type="submit" class="btn bg-red btn-sm text-white ml-1" value="Search">
                   </form>
               </div>
@@ -70,7 +70,11 @@
       </div>
       <div class="container">
         <div class="row">
-          <div class="col"></div>
+          <div class="col" id="filler">
+            <div class="jumbotron text-center">
+              <h4 id="search-value"></h4>
+            </div>
+          </div>
           <div class="col">
             <div class="jumbotron">
               <form action="" class="input-group text-center">
@@ -83,7 +87,7 @@
             <div class="jumbotron bg-navy text-right">
               <div class="dropdown w-100">
                 <button class="btn bg-red text-white dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                  Filter
+                  Sort
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                   <li><button class="dropdown-item" type="button">Action</button></li>
@@ -95,14 +99,28 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-4">
+          <div class="col-4" id="filter">
             <div class="jumbotron">
               
             </div>
           </div>
-          <div class="col-8">
+          <div class="col-8" id="results">
             <div class="jumbotron">
-              
+              <p id="time-results">
+              </p>
+              <p id="weather-results">
+              </p>
+            </div>
+            <div class="jumbotron">
+              <h4 id="hotel-title"></h4>
+              <div class="d-flex justify-content-around align-items-center" id="hotel-results">
+              </div>
+            </div>
+            <div class="jumbotron">
+              <h4 id="landmark-title"></h4>
+              <div class="d-flex justify-content-around align-items-center" id="landmark-results">
+
+              </div>
             </div>
           </div>
         </div>
