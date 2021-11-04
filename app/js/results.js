@@ -15,7 +15,7 @@ async function search(text)  {
         getTime(text);
         getHotels(text);
     }else if(localStorage.getItem('hotel-selected') == 'true'){ 
-        //makeSearch('hotel', params);
+        searchHotels(text);
     }else {
         //makeSearch('flight', params);
     }
@@ -43,6 +43,12 @@ async function getHotels(text) {
     const jsonHotels = await responseHotels.json();
 
     setResults(jsonHotels);
+}
+
+//search Hotels
+async function searchHotels(text) {
+    const hotelSearchResponse = await fetch(`../../searchhotels/${text}`);
+    const jsonHotelSearch = await hotelSearchResponse.json();
 }
 
 function setWeather(text) {
