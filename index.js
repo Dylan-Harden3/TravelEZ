@@ -28,7 +28,23 @@ app.get('/gettime/:search', async (req,res) => {
 
 // get hotel and landmark data
 app.get('/gethotels/:search', async(req,res) => {
-    var combined = [];  // list to hold all information about landmarks and hotels
+    // JSON object to hold landmarks and hotels to return
+    var combinedJSON = {
+        "hotels": [], 
+        /* hotel object:
+         *  "name": <name>,
+         *  "images: [<url>, ...],
+         *  "stars": <star rating>,
+         *  "price": <price>,
+         *  "tagline": <tagline>,
+         *  "freebies": <freebies>
+         */
+        "landmarks": [],
+        /* landmark object:
+         *  "name": <name>,
+         *  "image": <image url>
+         */
+    };
 
     // returns hotel and landmark information given a city, start date, end date
     const response = await fetch(`https://hotels4.p.rapidapi.com/locations/search?query=${req.params.search}&locale=en_US`, {
@@ -53,7 +69,6 @@ app.get('/gethotels/:search', async(req,res) => {
     for(var i = 0 ; i < landmarks.length ; i++){
         landmarksList.push(landmarks[i].name);
     }
-    combined.push(landmarksList);
 
     // landmark images
     var landmarksImg = [];
@@ -68,7 +83,6 @@ app.get('/gethotels/:search', async(req,res) => {
         const data = await response.json();
         landmarksImg.push(data.value[0].thumbnailUrl);
     }
-    combined.push(landmarksImg);
 
     // getting hotel information
     var stars = []
@@ -86,7 +100,7 @@ app.get('/gethotels/:search', async(req,res) => {
             }
         });
         var jres = await response.json()
-        console.log(jres)
+        // console.log(jres)
 
         name.push(jres.data.body.propertyDescription.name)
         stars.push(jres.data.body.propertyDescription.starRatingTitle)
@@ -103,23 +117,109 @@ app.get('/gethotels/:search', async(req,res) => {
             }
         });
         const data = await responseImg.json();
+        hotelsImg.push([]);  // want array for each set of image url's
         for (var j = 0; j < 5; ++j) {  // ERROR CHECKING
-            hotelsImg.push(data.hotelImages[j].baseUrl.replace("{size}", "z"));
+            hotelsImg[i].push(data.hotelImages[j].baseUrl.replace("{size}", "z"));
         }
     }
-    console.log(hotelsImg);
     
-    // adding hotel information to final return list
-    combined.push(name)
-    combined.push(stars)
-    combined.push(price)
-    combined.push(tagline)
-    combined.push(freebies)
-    combined.push(hotelsImg)
+    // adding hotel information to final return obj
+    // hotels
+    for (var i = 0; i < hotelsList.length; ++i) {
+        combinedJSON.hotels.push({
+            "name": name[i],
+            "images": hotelsImg[i],
+            "stars": stars[i],
+            "price": price[i],
+            "tagline": tagline[i],
+            "freebies": freebies[i]
+        });
+    }
+    // landmarks
+    for (var i = 0; i < landmarksList.length; ++i) {
+        combinedJSON.landmarks.push({
+            "name": landmarksList[i],
+            "image": landmarksImg[i]
+        });
+    }
 
     // sending list as JSON 
-    console.log(combined);
-    res.json(combined);
+    // console.log(combinedJSON);
+    res.json(combinedJSON);
+});
+
+// request hotels for hotel search
+app.get('/searchhotels/:search', async (req,res) => {
+    // JSON object to hold hotels to return
+    var combinedJSON = {
+        "hotels": [], 
+        /* hotel object:
+         *  "name": <name>,
+         *  "stars": <star rating>,
+         *  "address": <address>,
+         *  "price": <price>,
+         *  "images: [<url>, ...]
+         */
+    };
+
+    var args = req.params.search.split(',')  // splitting input into [city, start date, end date]
+
+    // find location id
+    const responseCity = await fetch(`https://hotels4.p.rapidapi.com/locations/search?query=${args[0]}&locale=en_US`, {
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-host": "hotels4.p.rapidapi.com",
+            "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
+        }
+    });
+    const dataCity = await responseCity.json();
+    var location = dataCity.suggestions[0].entities[0].destinationId;
+
+    // request data about hotel based on id
+    const responseLocation = await fetch(`https://hotels4.p.rapidapi.com/properties/list?adults1=1&destinationId=${location}&pageNumber=1&pageSize=25&checkIn=${args[1]}&checkOut=${args[2]}&adults1=1&sortOrder=STAR_RATING_HIGHEST_FIRST`, {
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-host": "hotels4.p.rapidapi.com",
+            "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
+        }
+    });
+    const dataLocation = await responseLocation.json()
+   
+    // filling array with info about 25 hotels from city requested
+    for(var i = 0; i < ((dataLocation.data.body.searchResults.results.length > 25) ? 25 : dataLocation.data.body.searchResults.results.length); i++){
+    // for (var i = 0; i < 25; ++i){
+        let name = dataLocation.data.body.searchResults.results[i].name;
+        let rating = dataLocation.data.body.searchResults.results[i].starRating;
+        let image = dataLocation.data.body.searchResults.results[i].optimizedThumbUrls.srpDesktop;
+
+        // check for non-existent address
+        let address = dataLocation.data.body.searchResults.results[i].address.streetAddress
+        if(address == undefined){
+            address = "No address information available.";
+        }
+ 
+        // check for non-existent pricing
+        let price;
+        try{
+            price = dataLocation.data.body.searchResults.results[i].ratePlan.price.current;
+        }
+        catch(err){
+            price = "No pricing information available.";
+        }
+ 
+        // adding data to json response
+        combinedJSON.hotels.push({
+            "name": name,
+            "rating": rating,
+            "address": address,
+            "price": price,
+            "image": image
+        });
+        console.log("pushed: ", i);
+    }
+ 
+    // console.log(combinedJSON);
+    res.json(combinedJSON);
 });
 
 app.listen(process.env.port || 3000, () => {
