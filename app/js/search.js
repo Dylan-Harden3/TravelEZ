@@ -77,20 +77,23 @@ async function setSearch() {
     // get the search value and set the locale storage to reflect
     var searchFields = document.getElementsByClassName('txt');
     var search = "";
-    
+    var locationSeach = localStorage.getItem('location-selected');
     // iterate all search fields, if the search field was selected then we use its content
     for(var i = 0 ; i < searchFields.length ; i++) {
         if(searchFields[i].parentElement.classList.contains('selected')){
             if(i == searchFields.length-1) {
                 search += searchFields[i].value;
             }else {
-                search += searchFields[i].value + ",";
-
+                if(locationSeach == 'true'){
+                    search += searchFields[i].value;
+                }else {
+                    search += searchFields[i].value + ",";
+                }
             }
         }
     }
     // remove the last comma
-    search = search.substr(0,search.length - 1);
+    // search = search.substr(0,search.length - 1);
 
     // now we set the search in local storage so we can access it when loading the results page
     localStorage.setItem('search',search)

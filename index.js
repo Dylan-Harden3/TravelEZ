@@ -102,7 +102,7 @@ app.get('/gethotels/:search', async(req,res) => {
                 }
             });
             var jres = await response.json()
-            // console.log(jres)
+            
             var curName = jres.data.body.propertyDescription.name
             name.push(curName)
             stars.push(jres.data.body.propertyDescription.starRatingTitle)
@@ -142,7 +142,7 @@ app.get('/gethotels/:search', async(req,res) => {
         }
     
         // sending list as JSON
-        // console.log(combinedJSON);
+        
     }catch(error){
         console.log(error);
     }
@@ -216,10 +216,9 @@ app.get('/searchhotels/:search', async (req,res) => {
             "price": price,
             "image": image
         });
-        console.log("pushed: ", i);
+        
     }
  
-    // console.log(combinedJSON);
     res.json(combinedJSON);
 });
 
@@ -245,7 +244,7 @@ app.get('/getflights/:search', async(req,res) => {
     };
 
     let inputSplit = req.params.search.split(',');
-    let date = reorderDate(inputSplit[2]);  // date to yyyy-mm-dd format
+    let date = await inputSplit[2];  // date to yyyy-mm-dd format
     
     // "from" location
     let responseFromLoc = await (await fetch(`https://priceline-com-provider.p.rapidapi.com/v1/flights/locations?name=${inputSplit[0]}`, {
@@ -255,6 +254,7 @@ app.get('/getflights/:search', async(req,res) => {
             "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
         }
     })).json();
+    
     let fromLoc = responseFromLoc[0].id;
 
     // "to" location
@@ -265,6 +265,7 @@ app.get('/getflights/:search', async(req,res) => {
             "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
         }
     })).json();
+    
     let toLoc = responseToLoc[0].id;
 
     // get flight data
@@ -275,8 +276,9 @@ app.get('/getflights/:search', async(req,res) => {
             "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
         }
     })
+    
     let responseFlightData = await responseFlight.json();
-
+    
     // getting airline info
     let airlineInfo = {
         /*
@@ -297,21 +299,23 @@ app.get('/getflights/:search', async(req,res) => {
                 "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
             }
         })).json();
+
         airlineInfo[(airlines[i].code)] = {
             "name": airlines[i].name,
             "website": airlines[i].websiteUrl,
             "image": airlineImg.value[0].thumbnailUrl
         }
     }
+    
 
     // formating flight data to return 
     for (let i = 0; i < 20; ++i) {
-        let airlineCode = responseFlight.pricedItinerary[i].pricingInfo.ticketingAirline;
+        let airlineCode = responseFlightData.pricedItinerary[i].pricingInfo.ticketingAirline;
         combinedJSON.flights.push({
             "airline": airlineCode,
-            "price": responseFlight.pricedItinerary[i].pricingInfo.totalFare,
-            "numSeats": responseFlight.pricedItinerary[i].numSeats,
-            "duration": responseFlight.pricedItinerary[i].totalTripDurationInHours,
+            "price": responseFlightData.pricedItinerary[i].pricingInfo.totalFare,
+            "numSeats": responseFlightData.pricedItinerary[i].numSeats,
+            "duration": responseFlightData.pricedItinerary[i].totalTripDurationInHours,
             "name": airlineInfo[airlineCode].name,
             "website": airlineInfo[airlineCode].website,
             "image": airlineInfo[airlineCode].image
@@ -323,11 +327,6 @@ app.get('/getflights/:search', async(req,res) => {
 
     res.json(combinedJSON);  // temp until good to go
 });
-
-function reorderDate(date) {
-    let splitDate = date.split("-");
-    return (`${splitDate[2]}-${splitDate[0]}-${splitDate[1]}`);
-}
 
 app.listen(process.env.port || 3000, () => {
     console.log('listening 3000')

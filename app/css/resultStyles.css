@@ -31,6 +31,10 @@
     flex-grow: 4;
 }
 
+.flight:hover {
+    outline: #0C1248 solid 2px;
+}
+
 @media screen and (max-width: 991.98px){
     .quiz-link {
         display: none !important;

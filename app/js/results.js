@@ -2,6 +2,7 @@
 window.onload = () => {
     // when we load the window we do the search
     search(localStorage.getItem('search'));
+    
     // set the smaller search bar to the search which was entered
     setResultsSearch();
 }
@@ -10,15 +11,29 @@ async function search(text)  {
     // here we can either have a location search, a hotel search, or a flight searchs
     var params = text.split(',');
 
-    if(localStorage.getItem('location-selected') == 'true') {
-        getWeather(text);
-        getTime(text);
-        getHotels(text);
-    }else if(localStorage.getItem('hotel-selected') == 'true'){ 
-        //searchHotels(text);
+    if(await isValidInput(params)){
+        if(localStorage.getItem('location-selected') == 'true') {
+            getWeather(text);
+            getTime(text);
+            getHotels(text);
+        }else if(localStorage.getItem('hotel-selected') == 'true'){ 
+            //searchHotels(text);
+        }else {
+            searchflights(text);
+        }
     }else {
-        searchflights(text);
+        window.alert('you must enter all fields');
+        window.location.href = 'search.html';
     }
+}
+
+async function isValidInput(params){
+    for(var i = 0 ; i < params.length ; i++){
+        if(params[i] == ''){
+            return false;
+        }
+    }
+    return true;
 }
 
 // weather request
@@ -162,17 +177,24 @@ async function searchflights(text) {
     await setFlights(jsonFlights);
 }
 
-async function setFlights(flights) {
+async function setFlights(flightsData) {
     var params = localStorage.getItem('search').split(',');
-    document.getElementById('search-value').textContent = `flights from ${params[0]} to ${params[1]} on ${params[2]}`
+
+    var searchValue = document.getElementById('search-value');
+    searchValue.textContent = `flights from: ${params[0]} to: ${params[1]} on ${params[2]}`;
+
+    var flights = flightsData.flights;
+    
     for(var i = 0 ; i < flights.length ; i++) {
         var outline = document.createElement('div');
         outline.classList.add('d-flex');
         outline.classList.add('align-items-center');
         outline.classList.add('rounded');
+        outline.classList.add('navy-border');
+        outline.classList.add('flight');
         outline.classList.add('m-2');
 
-        var img = document.createElement(img);
+        var img = document.createElement('img');
         img.src = `${flights[i].image}`
         img.style.width = '20vh';
         outline.appendChild(img);
@@ -206,8 +228,9 @@ async function setFlights(flights) {
         seatsDuration.appendChild(duration);
         flightInfo.appendChild(seatsDuration);
         var link = document.createElement('a');
-        link.href = `${flights[i].website}`;
+        link.href = `http://${flights[i].website}`;
         link.textContent = `${flights[i].website}`;
+        link.target = '_blank';
         flightInfo.appendChild(link);
 
         outline.appendChild(flightInfo);
