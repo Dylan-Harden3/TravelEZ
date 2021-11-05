@@ -1,5 +1,5 @@
 
-import express from 'express';
+import express, { response } from 'express';
 import fetch from 'node-fetch';
 
 var app = express();
@@ -225,3 +225,99 @@ app.get('/searchhotels/:search', async (req,res) => {
 app.listen(process.env.port || 3000, () => {
     console.log('listening 3000')
 });
+
+// get flights for from location and to location on specified date
+/* format for request:
+ * from,to,date(mm-dd-yyyy)
+ */
+app.get('/getflights/:search', async(req,res) => {
+    // JSON object to hold flights to return
+    var combinedJSON = {
+        "fromLoc": "",
+        "toLoc": "",
+        "date": "",
+        "flights": [], 
+        /* flight object:
+         *  "airline": <airline>,
+         *  "logoImg": <logoImg>,
+         *  "price": <price>,
+         *  "url": <airlineWebsite>,
+         */
+    };
+
+    let inputSplit = req.params.search.split(',');
+    let date = reorderDate(inputSplit[2]);  // date to yyyy-mm-dd format
+    
+    // "from" location
+    let responseFromLoc = await (await fetch(`https://priceline-com-provider.p.rapidapi.com/v1/flights/locations?name=${inputSplit[0]}`, {
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-host": "priceline-com-provider.p.rapidapi.com",
+            "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
+        }
+    })).json();
+    let fromLoc = responseFromLoc[0].id;
+
+    // "to" location
+    let responseToLoc = await (await fetch(`https://priceline-com-provider.p.rapidapi.com/v1/flights/locations?name=${inputSplit[1]}`, {
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-host": "priceline-com-provider.p.rapidapi.com",
+            "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
+        }
+    })).json();
+    let toLoc = responseToLoc[0].id;
+
+    // get flight data
+    let responseFlight = await (await fetch(`https://priceline-com-provider.p.rapidapi.com/v1/flights/search?sort_order=PRICE&location_departure=${fromLoc}&date_departure=${date}&class_type=ECO&location_arrival=${toLoc}&itinerary_type=ONE_WAY&price_max=20000&date_departure_return=${date}&duration_max=2051&number_of_stops=1&price_min=100&number_of_passengers=1`, {
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-host": "priceline-com-provider.p.rapidapi.com",
+            "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
+        }
+    })).json();
+
+    // getting airline info
+    let airlineInfo = {
+        /*
+         *  "code": {
+         *      "name": <name>,
+         *      "website": <websiteUrl>,
+         *      "image": <imageUrl>
+         *  }
+         */
+    };
+    let airlines = responseFlight.airline;
+    for (let i = 0; i < airlines.length; ++i) {
+        airlineInfo[(airlines[i].code)] = {
+            "name": airlines[i].name,
+            "website": airlines[i].websiteUrl,
+            // "image": airlines[i].largeImage
+        }
+    }
+
+    // formating flight data to return 
+    for (let i = 0; i < 20; ++i) {
+        let airlineCode = responseFlight.pricedItinerary[i].pricingInfo.ticketingAirline;
+        combinedJSON.flights.push({
+            "airline": airlineCode,
+            "price": responseFlight.pricedItinerary[i].pricingInfo.totalFare,
+            "numSeats": responseFlight.pricedItinerary[i].numSeats,
+            "duration": responseFlight.pricedItinerary[i].totalTripDurationInHours,
+            "name": airlineInfo[airlineCode].name,
+            "website": airlineInfo[airlineCode].website,
+            // "image": airlineInfo[airlineCode].image
+        });
+    }
+    combinedJSON.fromLoc = fromLoc;
+    combinedJSON.toLoc = toLoc;
+    combinedJSON.date = date;
+
+    res.json(combinedJSON);  // temp until good to go
+});
+
+// reorders a date from {mm-dd-yyyy} to {yyyy-mm-dd}
+function reorderDate(date) {
+    let splitDate = date.split("-");
+    return (`${splitDate[2]}-${splitDate[0]}-${splitDate[1]}`);
+}
