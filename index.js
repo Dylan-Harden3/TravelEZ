@@ -239,9 +239,11 @@ app.get('/getflights/:search', async(req,res) => {
         "flights": [], 
         /* flight object:
          *  "airline": <airline>,
-         *  "logoImg": <logoImg>,
          *  "price": <price>,
-         *  "url": <airlineWebsite>,
+         *  "numSeats": <number of seats>,
+         *  "duration": <duration of flight (includes layovers)>,
+         *  "website": <website url>,
+         *  "image": <image url>
          */
     };
 
