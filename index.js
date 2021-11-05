@@ -289,10 +289,18 @@ app.get('/getflights/:search', async(req,res) => {
     };
     let airlines = responseFlight.airline;
     for (let i = 0; i < airlines.length; ++i) {
+        // getting image for airline logo
+        const airlineImg = await(await fetch(`https://bing-image-search1.p.rapidapi.com/images/search?q=${airlines[i].name} logo&count=1`, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "bing-image-search1.p.rapidapi.com",
+                "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
+            }
+        })).json();
         airlineInfo[(airlines[i].code)] = {
             "name": airlines[i].name,
             "website": airlines[i].websiteUrl,
-            // "image": airlines[i].largeImage
+            "image": airlineImg.value[0].thumbnailUrl
         }
     }
 
@@ -306,7 +314,7 @@ app.get('/getflights/:search', async(req,res) => {
             "duration": responseFlight.pricedItinerary[i].totalTripDurationInHours,
             "name": airlineInfo[airlineCode].name,
             "website": airlineInfo[airlineCode].website,
-            // "image": airlineInfo[airlineCode].image
+            "image": airlineInfo[airlineCode].image
         });
     }
     combinedJSON.fromLoc = fromLoc;
