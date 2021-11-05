@@ -1,4 +1,6 @@
-
+/*
+    Styles for landing page, search page
+*/
 body {
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
@@ -14,6 +16,10 @@ body {
 
 .outline-navy {
     outline: #0C1248 solid 3px;
+}
+
+.navy-border {
+    border: #0C1248 solid 2px;
 }
 
 .text-red {

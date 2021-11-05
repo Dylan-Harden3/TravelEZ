@@ -1,4 +1,6 @@
-
+/*
+    Specific Styles for the results page
+*/
 .jumbotron {
     background-color: #fff;
     opacity: 90%;
@@ -17,6 +19,16 @@
 
 .jumbotron p {
     margin-bottom: 0;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 30vh;
+    object-fit: cover;
+}
+
+.grow-2 {
+    flex-grow: 4;
 }
 
 @media screen and (max-width: 991.98px){
