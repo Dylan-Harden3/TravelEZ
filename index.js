@@ -107,7 +107,9 @@ app.get('/gethotels/:search', async(req,res) => {
             name.push(curName)
             stars.push(jres.data.body.propertyDescription.starRatingTitle)
             price.push(jres.data.body.propertyDescription.featuredPrice.currentPrice.formatted)
-            tagline.push(jres.data.body.propertyDescription.tagline[0])
+            var tag = jres.data.body.propertyDescription.tagline[0];
+            tag = tag.substring(3, tag.length - 5);
+            tagline.push(tag)
             freebies.push(jres.data.body.propertyDescription.freebies[0])
     
             const hotelImgSearch = await fetch(`https://bing-image-search1.p.rapidapi.com/images/search?q=${curName} ${req.params.search}&count=1`, {
