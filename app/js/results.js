@@ -154,7 +154,9 @@ async function setResults(info) {
         tagline.textContent = `${hotels[i].tagline}`;
         var freebies = document.createElement('h6');
         freebies.classList.add('card-text');
-        freebies.textContent = `${hotels[i].freebies}`;
+        if(hotels[i].freebies != undefined){
+            freebies.textContent = `${hotels[i].freebies}`;
+        }
 
         hotelInfo.appendChild(tagline);
         hotelInfo.appendChild(freebies);
