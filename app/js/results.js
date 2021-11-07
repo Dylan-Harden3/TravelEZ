@@ -1,23 +1,22 @@
 
 window.onload = () => {
     // when we load the window we do the search
+    console.log('search: ' + localStorage.getItem('search'))
     search(localStorage.getItem('search'));
-    
     // set the smaller search bar to the search which was entered
     setResultsSearch();
 }
 
 async function search(text)  {
     // here we can either have a location search, a hotel search, or a flight searchs
-    var params = text.split(',');
-
-    if(await isValidInput(params)){
+    if(await isValidInput(text)){
+        setLoading();
         if(localStorage.getItem('location-selected') == 'true') {
+            await getHotels(text);
             getWeather(text);
             getTime(text);
-            getHotels(text);
         }else if(localStorage.getItem('hotel-selected') == 'true'){ 
-            //searchHotels(text);
+            searchHotels(text);
         }else {
             searchflights(text);
         }
@@ -25,9 +24,12 @@ async function search(text)  {
         window.alert('you must enter all fields');
         window.location.href = 'search.html';
     }
+
 }
 
-async function isValidInput(params){
+async function isValidInput(search){
+
+    var params = search.split(',');
     for(var i = 0 ; i < params.length ; i++){
         if(params[i] == ''){
             return false;
@@ -35,7 +37,31 @@ async function isValidInput(params){
     }
     return true;
 }
+/*  
+    was in time
+    var searchV = document.getElementById('search-value');
+    searchV.innerHTML = `Showing results for <br>${localStorage.getItem('search')}`;
+    was in hotels search
+    var searchValue = document.getElementById('search-value');
+    searchValue.textContent = `hotels in ${params[0]} check-in: ${params[1]} check-out: ${params[2]}`;
+    was in flights 
+    var searchValue = document.getElementById('search-value');
+    searchValue.textContent = `flights from: ${params[0]} to: ${params[1]} on ${params[2]}`;
+*/
 
+async function setLoading() {
+    var params = localStorage.getItem('search').split(',');
+    if(localStorage.getItem('location-selected') == 'true'){
+        var searchLocation = document.getElementById('search-value');
+        searchLocation.innerHTML = `Loading results for <br>${localStorage.getItem('search')}`;
+    }else if(localStorage.getItem('hotel-selected') == 'true'){
+        var searchHotel = document.getElementById('search-value');
+        searchHotel.textContent = `Loading hotels in ${params[0]} check-in: ${params[1]} check-out: ${params[2]}`;
+    }else {
+        var searchValue = document.getElementById('search-value');
+        searchValue.textContent = `Loading flights from: ${params[0]} to: ${params[1]} on ${params[2]}`;
+    }
+}
 // weather request
 async function getWeather(text) {
     const responseWeather = await fetch(`../../getweather/${text}`);
@@ -63,6 +89,7 @@ async function getHotels(text) {
 async function searchHotels(text) {
     const hotelSearchResponse = await fetch(`../../searchhotels/${text}`);
     const jsonHotelSearch = await hotelSearchResponse.json();
+    await setHotels(jsonHotelSearch);
 }
 
 // to set weather/time we just add the text to the corresponding paragraph
@@ -74,12 +101,13 @@ function setWeather(text) {
 function setTime(text) {
     var timeP = document.getElementById('time-results');
     timeP.textContent = `The local time in ${localStorage.getItem('search')} ${text}`;
-    var searchV = document.getElementById('search-value');
-    searchV.innerHTML = `Showing results for <br>${localStorage.getItem('search')}`;
+    
 }
 
 // set the hotels and landmarks from a location search
 async function setResults(info) {
+    var searchV = document.getElementById('search-value');
+    searchV.innerHTML = `Showing results for <br>${localStorage.getItem('search')}`;
     var hotelResults = document.getElementById('hotel-results');
     var hotels = info.hotels;
     // iterate through all hotels, creating a card with the info for that hotel
@@ -87,6 +115,7 @@ async function setResults(info) {
         var newCard = document.createElement('div');
         newCard.classList.add('card');
         newCard.classList.add('m-2');
+        newCard.classList.add('mx-auto');
         newCard.style.width = '18rem';
 
         var img = document.createElement('img');
@@ -147,12 +176,13 @@ async function setResults(info) {
         var curCard = document.createElement('div');
         curCard.classList.add('card');
         curCard.classList.add('m-2');
+        curCard.classList.add('mx-auto');
         curCard.style.width = '18rem';
         
         var curImg = document.createElement('img');
         curImg.classList.add('card-img-top')
         curImg.src = `${landmarks[i].image}`;
-        newCard.appendChild(curImg);
+        curCard.appendChild(curImg);
 
         var curBody = document.createElement('div');
         curBody.classList.add('card-body');
@@ -171,6 +201,60 @@ async function setResults(info) {
     hotelTitle.textContent = `Popular landmarks in ${localStorage.getItem('search')}`;
 }
 
+async function setHotels(data) {
+    var params = localStorage.getItem('search').split(',');
+    var searchValue = document.getElementById('search-value');
+    searchValue.textContent = `hotels in ${params[0]} check-in: ${params[1]} check-out: ${params[2]}`;
+
+    var hotels = data.hotels;
+
+    for(var i = 0 ; i < hotels.length ; i++){
+        var outline = document.createElement('div');
+        outline.classList.add('d-flex');
+        outline.classList.add('align-items-center');
+        outline.classList.add('rounded');
+        outline.classList.add('navy-border');
+        outline.classList.add('flight');
+        outline.classList.add('m-2');
+
+        var img = document.createElement('img');
+        img.src = `${hotels[i].image}`
+        img.style.width = '20vh';
+        outline.appendChild(img);
+
+        var hotelInfo = document.createElement('div');
+        hotelInfo.classList.add('d-flex');
+        hotelInfo.classList.add('flex-column');
+        hotelInfo.classList.add('justify-content-around');
+        hotelInfo.classList.add('grow-2');
+
+        var name = document.createElement('h5');
+        name.textContent = `${hotels[i].name}`;
+        hotelInfo.appendChild(name);
+
+        var ratingPrice = document.createElement('div');
+        ratingPrice.classList.add('d-flex');
+        ratingPrice.classList.add('justify-content-around');
+        var rating = document.createElement('p');
+        rating.textContent = `Rating: ${hotels[i].rating} stars`
+        var price = document.createElement('p');
+        price.textContent = `Price: ${hotels[i].price}`;
+        ratingPrice.appendChild(rating);
+        ratingPrice.appendChild(price);
+        hotelInfo.appendChild(ratingPrice);
+
+        var link = document.createElement('p');
+        link.textContent = `${hotels[i].address}`;
+
+        hotelInfo.appendChild(link);
+
+        outline.append(hotelInfo);
+
+        document.getElementById('flight-results').appendChild(outline);
+
+    }
+}
+
 async function searchflights(text) {
     const responseFlights = await fetch(`../../getflights/${text}`);
     const jsonFlights = await responseFlights.json();
@@ -184,7 +268,7 @@ async function setFlights(flightsData) {
     searchValue.textContent = `flights from: ${params[0]} to: ${params[1]} on ${params[2]}`;
 
     var flights = flightsData.flights;
-    
+
     for(var i = 0 ; i < flights.length ; i++) {
         var outline = document.createElement('div');
         outline.classList.add('d-flex');

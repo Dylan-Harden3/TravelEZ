@@ -92,9 +92,9 @@ async function setSearch() {
             }
         }
     }
-    // remove the last comma
-    // search = search.substr(0,search.length - 1);
-
+    if(search.split(',').length - 1 == 3){
+        search = search.substring(0,search.length - 1);
+    }
     // now we set the search in local storage so we can access it when loading the results page
     localStorage.setItem('search',search)
 }

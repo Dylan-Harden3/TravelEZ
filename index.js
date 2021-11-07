@@ -47,7 +47,7 @@ app.get('/gethotels/:search', async(req,res) => {
     };
     try {
         // returns hotel and landmark information given a city, start date, end date
-        const response = await fetch(`https://hotels4.p.rapidapi.com/locations/search?query=${req.params.search}&locale=en_US`, {
+        const response = await fetch(`https://hotels4.p.rapidapi.com/locations/v2/search?query=${req.params.search}&locale=en_US`, {
             "method": "GET",
             "headers": {
                 "x-rapidapi-host": "hotels4.p.rapidapi.com",
@@ -166,7 +166,7 @@ app.get('/searchhotels/:search', async (req,res) => {
     var args = req.params.search.split(',')  // splitting input into [city, start date, end date]
  
     // find location id
-    const responseCity = await fetch(`https://hotels4.p.rapidapi.com/locations/search?query=${args[0]}&locale=en_US`, {
+    const responseCity = await fetch(`https://hotels4.p.rapidapi.com/locations/v2/search?query=${args[0]}&locale=en_US`, {
         "method": "GET",
         "headers": {
             "x-rapidapi-host": "hotels4.p.rapidapi.com",
