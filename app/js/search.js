@@ -32,9 +32,9 @@ function toggleOutline(icon) {
     // iterate all the icons and if the icon is the one which was selected add an outline
     for(var i = 0 ; i < icons.length ; i++){
         if(icons[i].id != icon.id){
-            icons[i].classList.remove('outline-navy');
+            icons[i].classList.remove('outline-red');
         }else {
-            icons[i].classList.add('outline-navy')
+            icons[i].classList.add('outline-red')
         }
     }
 }

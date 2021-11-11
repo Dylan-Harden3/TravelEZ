@@ -2,7 +2,7 @@
     Styles for landing page, search page
 */
 body {
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: sans-serif;
 }
 
 .nav-item:hover {
@@ -16,6 +16,10 @@ body {
 
 .outline-navy {
     outline: #0C1248 solid 3px;
+}
+
+.outline-red {
+    outline:#D03737 solid 3px;
 }
 
 .navy-border {
