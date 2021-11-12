@@ -1,11 +1,18 @@
 
 window.onload = async () => {
     // when we load the window we do the search
-    console.log('search: ' + localStorage.getItem('search'))
-    await search(localStorage.getItem('search'));
-    // set the smaller search bar to the search which was entered
-    await setResultsSearch();
+    if(!await isSameSearch()){
+        console.log('search: ' + localStorage.getItem('search'))
+        await search(localStorage.getItem('search'));
+        // set the smaller search bar to the search which was entered
+        await setResultsSearch();
+    }
+    // once the search is complete we remove the loading screen
     await deleteLoading();
+}
+
+async function isSameSearch(){
+    return localStorage.getItem('search') == localStorage.getItem('lastSearch');
 }
 
 async function search(text)  {
@@ -36,17 +43,6 @@ async function isValidInput(search){
     }
     return true;
 }
-/*  
-    was in time
-    var searchV = document.getElementById('search-value');
-    searchV.innerHTML = `Showing results for <br>${localStorage.getItem('search')}`;
-    was in hotels search
-    var searchValue = document.getElementById('search-value');
-    searchValue.textContent = `hotels in ${params[0]} check-in: ${params[1]} check-out: ${params[2]}`;
-    was in flights 
-    var searchValue = document.getElementById('search-value');
-    searchValue.textContent = `flights from: ${params[0]} to: ${params[1]} on ${params[2]}`;
-*/
 
 // weather request
 async function getWeather(text) {
@@ -320,12 +316,15 @@ async function setResultsSearch() {
     var flightSelected = localStorage.getItem('flight-selected');
     // we check which search was selected and set the icon and bar to reflect that
     if(locationSelected == 'true') {
+        document.getElementById('search-description').textContent = 'location search';
         changeOutline('location');
         changeBar('location');
     }else if(hotelSelected == 'true'){
+        document.getElementById('search-description').textContent = 'hotel search';
         changeOutline('hotel');
         changeBar('hotel');
     }else {
+        document.getElementById('search-description').textContent = 'flight search';
         changeOutline('flight');
         changeBar('flight');
     }
@@ -340,6 +339,8 @@ function changeOutline(icon) {
             icons[i].classList.remove('outline-red');
         }else {
             icons[i].classList.add('outline-red')
+            console.log("icon: " + icon)
+            document.getElementById('search-description').textContent = `${icon} search`;
         }
     }
 }

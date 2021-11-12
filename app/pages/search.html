@@ -42,24 +42,33 @@
                     <h1 class="text-navy float-left">Where will you go?</h1>
                 </div>
                 <div class="d-flex justify-content-center align-items-center icon-group">
+                  <div class="d-flex flex-column justify-content-center ">
+                    <p class="mb-0 font-weight-bold">location search</p>
                     <img src="../img/icons/location.png" width="40px" height="40px" alt="" class="outline-red icon" id="location">
+                  </div>
+                  <div class="d-flex flex-column justify-content-center ">
+                    <p class="mb-0">hotel search</p>
                     <img src="../img/icons/hotel.png" width="40px" height="40px" alt="" class="icon" id="hotel">
+                  </div>
+                  <div class="d-flex flex-column justify-content-center ">
+                    <p class="mb-0">flights search</p>
                     <img src="../img/icons/airplane.png" width="40px" height="40px" alt="" class="icon" id="flight">
+                  </div>
                 </div>
                 <form class="input-group px-5 py-3 selected" id="location-search" action="result.html">
-                    <input type="text" class="form-control border-navy rounded txt" placeholder="Enter Destination">
+                    <input type="text" class="form-control border-navy rounded txt" placeholder="Enter Destination City">
                     <input type="submit" class="btn bg-red btn-lg text-white ml-1" value="Search">
                 </form>
                 <form class="input-group px-5 py-3 not-selected" id="hotel-search" action="result.html">
-                    <input type="text" class="form-control border-navy rounded txt" placeholder="Destination">
-                    <input type="text" class="form-control border-navy rounded txt" placeholder="Check-in" onfocus="(this.type='date')">
-                    <input type="text" class="form-control border-navy rounded txt" placeholder="Check-out" onfocus="(this.type='date')">
+                    <input type="text" class="form-control border-navy rounded txt" placeholder="Destination City">
+                    <input type="text" class="form-control border-navy rounded txt" placeholder="Check-in date" onfocus="(this.type='date')">
+                    <input type="text" class="form-control border-navy rounded txt" placeholder="Check-out date" onfocus="(this.type='date')">
                     <input type="submit" class="btn bg-red btn-lg text-white ml-1" value="Search">
                 </form>
                 <form class="input-group px-5 py-3 not-selected" id="flight-search" action="result.html">
-                    <input type="text" class="form-control border-navy rounded txt" placeholder="From">
-                    <input type="text" class="form-control border-navy rounded txt" placeholder="To">
-                    <input type="text" class="form-control border-navy rounded txt" placeholder="date" onfocus="(this.type='date')">
+                    <input type="text" class="form-control border-navy rounded txt" placeholder="Leaving From">
+                    <input type="text" class="form-control border-navy rounded txt" placeholder="Going To">
+                    <input type="text" class="form-control border-navy rounded txt" placeholder="departure date" onfocus="(this.type='date')">
                     <input type="submit" class="btn bg-red btn-lg text-white ml-1" value="Search">
                 </form>
                 <h5 class="mt-2">Out of ideas?</h5>
