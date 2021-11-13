@@ -245,15 +245,137 @@ app.get('/searchhotels/:search', async (req,res) => {
 
 // get flights for from location and to location on specified date
 /* format for request:
- * from,to,date(mm-dd-yyyy)
+ * from,to,date(yyyy-mm-dd)
  */
 app.get('/getflights/:search', async(req,res) => {
+    // gets flight information for a date input and airports given
+    async function getFlights(date, fromLoc, toLoc, airlineInfo) {
+        // get flight data
+        let responseFlight = await fetch(`https://priceline-com-provider.p.rapidapi.com/v1/flights/search?sort_order=PRICE&location_departure=${fromLoc}&date_departure=${date}&class_type=ECO&location_arrival=${toLoc}&itinerary_type=ONE_WAY&price_max=20000&date_departure_return=${date}&duration_max=2051&number_of_stops=1&price_min=100&number_of_passengers=1`, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "priceline-com-provider.p.rapidapi.com",
+                "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
+            }
+        });
+        let responseFlightData = await responseFlight.json();
+
+        let airlines = responseFlightData.airline;
+        for (let i = 0; i < airlines.length; ++i) {
+            // only add if not already added
+            if (airlineInfo[(airlines[i].code)] == undefined) {
+                // getting image for airline logo
+                const airlineImg = await(await fetch(`https://bing-image-search1.p.rapidapi.com/images/search?q=${airlines[i].name} logo&count=1`, {
+                    "method": "GET",
+                    "headers": {
+                        "x-rapidapi-host": "bing-image-search1.p.rapidapi.com",
+                        "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
+                    }
+                })).json();
+
+                let image;
+                try {
+                    image = airlineImg.value[0].thumbnailUrl;
+                } catch(error) {
+                    image = undefined;
+                }
+
+                airlineInfo[(airlines[i].code)] = {
+                    "name": airlines[i].name,
+                    "website": airlines[i].websiteUrl,
+                    "image": image
+                }
+            }
+        }
+
+        let flightInfo = [
+            /* flight object:
+            *  "airline": <airline>,
+            *  "price": <price>,
+            *  "numSeats": <number of seats>,
+            *  "duration": <duration of flight (includes layovers)>,
+            *  "website": <website url>,
+            *  "image": <image url>
+            */
+        ];
+        // formating flight data to return 
+        let count = (responseFlightData.pricedItinerary.length < 20) ? responseFlightData.pricedItinerary.length : 20;
+        for (let i = 0; i < count; ++i) {
+            let airlineCode, price, numSeats, duration, name, website, image;
+
+            // airlineCode
+            try {
+                airlineCode = responseFlightData.pricedItinerary[i].pricingInfo.ticketingAirline;
+            } catch(error) {
+                airlineCode = undefined;
+            }
+            // price
+            try {
+                price = responseFlightData.pricedItinerary[i].pricingInfo.totalFare;
+            } catch(error) {
+                price = undefined;
+            }
+            // numSeats
+            try {
+                numSeats = responseFlightData.pricedItinerary[i].numSeats;
+            } catch(error) {
+                numSeats = undefined;
+            }
+            // duration
+            try {
+                duration = responseFlightData.pricedItinerary[i].totalTripDurationInHours;
+            } catch(error) {
+                duration = undefined;
+            }
+            // name
+            try {
+                name = airlineInfo[airlineCode].name;
+            } catch(error) {
+                name = undefined;
+            }
+            // website
+            try {
+                website = airlineInfo[airlineCode].website;
+            } catch(error) {
+                website = undefined;
+            }
+            // image
+            try {
+                image = airlineInfo[airlineCode].image;
+            } catch(error) {
+                image = undefined;
+            }
+
+            flightInfo.push({
+                "airline": airlineCode,
+                "price": price,
+                "numSeats": numSeats,
+                "duration": duration,
+                "name": name,
+                "website": website,
+                "image": image
+            });
+        }
+
+        return flightInfo;
+    }
+
     // JSON object to hold flights to return
     var combinedJSON = {
         "fromLoc": "",
         "toLoc": "",
-        "date": "",
-        "flights": [], 
+        "dateLeave": "",
+        "flightsLeave": [], 
+        /* flight object:
+         *  "airline": <airline>,
+         *  "price": <price>,
+         *  "numSeats": <number of seats>,
+         *  "duration": <duration of flight (includes layovers)>,
+         *  "website": <website url>,
+         *  "image": <image url>
+         */
+        "dateReturn": "",
+        "flightsReturn": [], 
         /* flight object:
          *  "airline": <airline>,
          *  "price": <price>,
@@ -267,7 +389,11 @@ app.get('/getflights/:search', async(req,res) => {
     // attempting to get flights, if error is thrown then catch and return {"error": <error thrown>}
     try {
         let inputSplit = req.params.search.split(',');
-        let date = await inputSplit[2];  // date to yyyy-mm-dd format
+        let dateLeave = inputSplit[2];  // date to yyyy-mm-dd format
+        // length of input > 3 => two dates entered
+        let dateReturn = (inputSplit.length > 3) ? inputSplit[3] : inputSplit[2];
+        // type of flight 
+        let roundTrip = (inputSplit.length > 3) ? true : false;
         
         // "from" location
         let responseFromLoc = await (await fetch(`https://priceline-com-provider.p.rapidapi.com/v1/flights/locations?name=${inputSplit[0]}`, {
@@ -291,17 +417,6 @@ app.get('/getflights/:search', async(req,res) => {
         
         let toLoc = responseToLoc[0].id;
 
-        // get flight data
-        let responseFlight = await fetch(`https://priceline-com-provider.p.rapidapi.com/v1/flights/search?sort_order=PRICE&location_departure=${fromLoc}&date_departure=${date}&class_type=ECO&location_arrival=${toLoc}&itinerary_type=ONE_WAY&price_max=20000&date_departure_return=${date}&duration_max=2051&number_of_stops=1&price_min=100&number_of_passengers=1`, {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "priceline-com-provider.p.rapidapi.com",
-                "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
-            }
-        })
-        
-        let responseFlightData = await responseFlight.json();
-        
         // getting airline info
         let airlineInfo = {
             /*
@@ -312,41 +427,16 @@ app.get('/getflights/:search', async(req,res) => {
             *  }
             */
         };
-        let airlines = responseFlightData.airline;
-        for (let i = 0; i < airlines.length; ++i) {
-            // getting image for airline logo
-            const airlineImg = await(await fetch(`https://bing-image-search1.p.rapidapi.com/images/search?q=${airlines[i].name} logo&count=1`, {
-                "method": "GET",
-                "headers": {
-                    "x-rapidapi-host": "bing-image-search1.p.rapidapi.com",
-                    "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
-                }
-            })).json();
 
-            airlineInfo[(airlines[i].code)] = {
-                "name": airlines[i].name,
-                "website": airlines[i].websiteUrl,
-                "image": airlineImg.value[0].thumbnailUrl
-            }
-        }
-        
+        // flights
+        combinedJSON.flightsLeave = await getFlights(dateLeave, fromLoc, toLoc, airlineInfo);
+        combinedJSON.flightsReturn = roundTrip ? await getFlights(dateReturn, toLoc, fromLoc, airlineInfo) : undefined;
 
-        // formating flight data to return 
-        for (let i = 0; i < 20; ++i) {
-            let airlineCode = responseFlightData.pricedItinerary[i].pricingInfo.ticketingAirline;
-            combinedJSON.flights.push({
-                "airline": airlineCode,
-                "price": responseFlightData.pricedItinerary[i].pricingInfo.totalFare,
-                "numSeats": responseFlightData.pricedItinerary[i].numSeats,
-                "duration": responseFlightData.pricedItinerary[i].totalTripDurationInHours,
-                "name": airlineInfo[airlineCode].name,
-                "website": airlineInfo[airlineCode].website,
-                "image": airlineInfo[airlineCode].image
-            });
-        }
+        // trip info
         combinedJSON.fromLoc = fromLoc;
         combinedJSON.toLoc = toLoc;
-        combinedJSON.date = date;
+        combinedJSON.dateLeave = dateLeave;
+        combinedJSON.dateReturn = roundTrip ? dateReturn : undefined;
     } catch(error) {
         combinedJSON = {"error": error};
     }
