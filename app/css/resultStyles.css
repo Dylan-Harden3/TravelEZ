@@ -31,8 +31,27 @@
     flex-grow: 4;
 }
 
-.flight:hover {
-    outline: #0C1248 solid 2px;
+.loading {
+    height: 100vh;
+    width: 100vw;
+    max-height: 100%;
+    position: fixed;
+    z-index: 1;
+    background-color: #0C1248;
+}
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #D03737; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 1.5s linear infinite;
+    margin: 50vh auto;
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 @media screen and (max-width: 991.98px){

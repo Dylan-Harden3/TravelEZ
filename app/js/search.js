@@ -32,10 +32,26 @@ function toggleOutline(icon) {
     // iterate all the icons and if the icon is the one which was selected add an outline
     for(var i = 0 ; i < icons.length ; i++){
         if(icons[i].id != icon.id){
-            icons[i].classList.remove('outline-navy');
+            icons[i].classList.remove('outline-red');
+            if(icons[i].previousElementSibling){
+                icons[i].previousElementSibling.classList.remove('font-weight-bold');
+            }
         }else {
-            icons[i].classList.add('outline-navy')
+            icons[i].classList.add('outline-red')
+            if(icons[i].previousElementSibling){
+                icons[i].previousElementSibling.classList.add('font-weight-bold');
+            }
+            
+            if(window.location.href.split('/').at(-1) == 'result.html?'){
+                document.getElementById('search-description').textContent = `${icons[i].id} search`;
+            }
         }
+    }
+    var roundTrip = document.getElementById('round-trip');
+    if(localStorage.getItem('flight-selected') == 'true'){
+        roundTrip.style.display = 'block';
+    }else {
+        roundTrip.style.display = 'none';
     }
 }
 
@@ -96,5 +112,6 @@ async function setSearch() {
         search = search.substring(0,search.length - 1);
     }
     // now we set the search in local storage so we can access it when loading the results page
+    localStorage.setItem('lastSearch',localStorage.getItem('search'));
     localStorage.setItem('search',search)
 }
