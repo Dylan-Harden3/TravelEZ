@@ -118,7 +118,7 @@ async function setResults(info) {
         hotelRates.classList.add('justify-content-around');
         
         var price = document.createElement('h6');
-        price.textContent = `${hotels[i].price}`;
+        price.textContent = `${hotels[i].price}/night`;
         var stars = document.createElement('h6');
         stars.textContent = `${hotels[i].stars}`;
 
@@ -222,7 +222,7 @@ async function setHotels(data) {
         var rating = document.createElement('p');
         rating.textContent = `Rating: ${hotels[i].rating} stars`
         var price = document.createElement('p');
-        price.textContent = `Price: ${hotels[i].price}`;
+        price.textContent = `Price: ${hotels[i].price}/night`;
         ratingPrice.appendChild(rating);
         ratingPrice.appendChild(price);
         hotelInfo.appendChild(ratingPrice);

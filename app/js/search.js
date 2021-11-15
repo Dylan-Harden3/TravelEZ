@@ -47,6 +47,12 @@ function toggleOutline(icon) {
             }
         }
     }
+    var roundTrip = document.getElementById('round-trip');
+    if(localStorage.getItem('flight-selected') == 'true'){
+        roundTrip.style.display = 'block';
+    }else {
+        roundTrip.style.display = 'none';
+    }
 }
 
 // change the search bar

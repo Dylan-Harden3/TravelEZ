@@ -2,7 +2,13 @@
     Styles for landing page, search page
 */
 body {
-    font-family: sans-serif;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.bg-error {
+    background-color: #fff;
+    height: 100vh;
+    width: 100%;
 }
 
 .nav-item:hover {
@@ -131,10 +137,6 @@ body {
 .center-items {
     justify-content: center;
     align-items: center;
-}
-
-.card:hover {
-    border: 2px solid #0C1248;
 }
 
 @keyframes slide {
