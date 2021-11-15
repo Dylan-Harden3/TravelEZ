@@ -63,7 +63,7 @@ app.get('/gethotels/:search', async(req,res) => {
             "method": "GET",
             "headers": {
                 "x-rapidapi-host": "hotels4.p.rapidapi.com",
-                "x-rapidapi-key": "9b5960201fmsh3b87e1ff529e13ap1b03e7jsn5fa09936d25a"
+                "x-rapidapi-key": "a78338c436mshde13931799f7c20p10308bjsn5283b6acf0dc"
             }   
         });
 
@@ -91,7 +91,7 @@ app.get('/gethotels/:search', async(req,res) => {
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-host": "bing-image-search1.p.rapidapi.com",
-                    "x-rapidapi-key": "9b5960201fmsh3b87e1ff529e13ap1b03e7jsn5fa09936d25a"
+                    "x-rapidapi-key": "a78338c436mshde13931799f7c20p10308bjsn5283b6acf0dc"
                 }
             });
             const data = await response.json();
@@ -110,7 +110,7 @@ app.get('/gethotels/:search', async(req,res) => {
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-host": "hotels4.p.rapidapi.com",
-                    "x-rapidapi-key": "9b5960201fmsh3b87e1ff529e13ap1b03e7jsn5fa09936d25a"
+                    "x-rapidapi-key": "a78338c436mshde13931799f7c20p10308bjsn5283b6acf0dc"
                 }
             });
             var jres = await response.json()
@@ -128,7 +128,7 @@ app.get('/gethotels/:search', async(req,res) => {
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-host": "bing-image-search1.p.rapidapi.com",
-                    "x-rapidapi-key": "9b5960201fmsh3b87e1ff529e13ap1b03e7jsn5fa09936d25a"
+                    "x-rapidapi-key": "a78338c436mshde13931799f7c20p10308bjsn5283b6acf0dc"
                 }
             });
             const imgData = await hotelImgSearch.json();
@@ -187,7 +187,7 @@ app.get('/searchhotels/:search', async (req,res) => {
             "method": "GET",
             "headers": {
                 "x-rapidapi-host": "hotels4.p.rapidapi.com",
-                "x-rapidapi-key": "9b5960201fmsh3b87e1ff529e13ap1b03e7jsn5fa09936d25a"
+                "x-rapidapi-key": "a78338c436mshde13931799f7c20p10308bjsn5283b6acf0dc"
             }
         });
         const dataCity = await responseCity.json();
@@ -198,7 +198,7 @@ app.get('/searchhotels/:search', async (req,res) => {
             "method": "GET",
             "headers": {
                 "x-rapidapi-host": "hotels4.p.rapidapi.com",
-                "x-rapidapi-key": "9b5960201fmsh3b87e1ff529e13ap1b03e7jsn5fa09936d25a"
+                "x-rapidapi-key": "a78338c436mshde13931799f7c20p10308bjsn5283b6acf0dc"
             }
         });
         const dataLocation = await responseLocation.json()
@@ -441,6 +441,132 @@ app.get('/getflights/:search', async(req,res) => {
     }
 
     res.json(combinedJSON);  // temp until good to go
+});
+
+let vacations = {
+    type : {
+        Coastal : {
+            Sightseeing : {
+                Hot : [
+                    "Orlando"
+                ],
+                Temperate : [
+                    "Washington DC"
+                ],
+                Cold : [
+                    "New York City"
+                ]
+            },
+            OutdoorAdventure : {
+                Hot : [
+                    "Key West"
+                ],
+                Temperate : [
+                    "Cape Hatteras"
+                ],
+                Cold : [
+                    "Olympic National Park"
+                ]
+            },
+            Leisure : {
+                Hot : [
+                    "Miami"
+                ],
+                Temperate : [
+                    "Los Angeles"
+                ],
+                Cold : [
+                    "Boston"
+                ]
+            }
+        },
+        Continental : {
+            Sightseeing : {
+                Hot : [
+                    "New Orleans"
+                ],
+                Temperate : [
+                    "San Francisco"
+                ],
+                Cold : [
+                    "Denver"
+                ]
+            },
+            OutdoorAdventure : {
+                Hot : [
+                    "Tusayan"
+                ],
+                Temperate : [
+                    "Keystone"
+                ],
+                Cold : [
+                    "Jackson Hole"
+                ]
+            },
+            Leisure : {
+                Hot : [
+                    "Las Vegas"
+                ],
+                Temperate : [
+                    "Atlanta"
+                ],
+                Cold : [
+                    "Seattle"
+                ]
+            }
+        },
+        Exotic : {
+            Sightseeing : {
+                Hot : [
+                    "Honolulu"
+                ],
+                Temperate : [
+                    "Carlsbad Caverns"
+                ],
+                Cold : [
+                    "Juneau"
+                ]
+            },
+            OutdoorAdventure : {
+                Hot : [
+                    "Maui"
+                ],
+                Temperate : [
+                    "Sequoia National Park"
+                ],
+                Cold : [
+                    "Acadia National Park"
+                ]
+            },
+            Leisure : {
+                Hot : [
+                    "Nassau"
+                ],
+                Temperate : [
+                    "Florida Keys"
+                ],
+                Cold : [
+                    "Anchorage"
+                ]
+            }
+        }
+    }
+};
+
+app.get('/getresults/:search', async (req,res) => {
+    try {
+        let args = req.params.search.split(',');
+        let results = [];
+        if(args[1] == 'Outdoor Adventure'){
+            results = vacations.type[args[0]]['OutdoorAdventure'][args[2]];
+        }else {
+            results = vacations.type[args[0]][args[1]][args[2]];
+        }
+        res.json(results);
+    }catch(e) {
+        console.log(e);
+        res.send('error');
+    }
 });
 
 app.listen(process.env.port || 3000, () => {

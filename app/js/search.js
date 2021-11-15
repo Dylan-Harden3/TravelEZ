@@ -80,6 +80,7 @@ window.onload = () => {
         localStorage.setItem('hotel-selected','false');
         localStorage.setItem('flight-selected','false');
     }
+        document.getElementById('round-trip').style.display = 'none';
 }
 
 // get all the input forms and add setSearch onclick
