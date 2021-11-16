@@ -5,7 +5,23 @@
     --color3: #FFF;
 }
 
-/* any item will have these properties */
+/* header items */
+.header {
+    padding: 30px;
+}
+
+.maxWidth80 {
+    max-width: 80%;
+    margin: 0 auto;
+    align-items: center;
+    text-align: center;
+}
+
+.header h1 {
+    text-align: center;
+}
+
+/* boxed items (with borders) */
 .box {
     border: solid;
     border-radius: 10px;
