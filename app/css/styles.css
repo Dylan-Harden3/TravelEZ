@@ -1,6 +1,14 @@
-
+/*
+    Styles for landing page, search page
+*/
 body {
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.bg-error {
+    background-color: #fff;
+    height: 100vh;
+    width: 100%;
 }
 
 .nav-item:hover {
@@ -14,6 +22,14 @@ body {
 
 .outline-navy {
     outline: #0C1248 solid 3px;
+}
+
+.outline-red {
+    outline:#D03737 solid 3px;
+}
+
+.navy-border {
+    border: #0C1248 solid 2px;
 }
 
 .text-red {
@@ -53,6 +69,10 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.icon:hover {
+    cursor: pointer;
 }
 
 .fill {
@@ -117,10 +137,6 @@ body {
 .center-items {
     justify-content: center;
     align-items: center;
-}
-
-.card:hover {
-    border: 2px solid #0C1248;
 }
 
 @keyframes slide {
