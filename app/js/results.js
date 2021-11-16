@@ -273,60 +273,200 @@ async function setFlights(flightsData) {
     var searchValue = document.getElementById('search-value');
     searchValue.innerHTML = `flights from: ${params[0]}<br>to: ${params[1]}<br>on ${params[2]}`;
 
-    var flights = flightsData.flights;
+    if(flightsData.flightsReturn){
+        // make an outer div to make the two columns
+        var outerDiv = document.createElement('div');
+        outerDiv.classList.add('d-flex');
+        outerDiv.classList.add('justify-content-evenly');
 
-    for(var i = 0 ; i < flights.length ; i++) {
-        var outline = document.createElement('div');
-        outline.classList.add('d-flex');
-        outline.classList.add('align-items-center');
-        outline.classList.add('rounded');
-        outline.classList.add('navy-border');
-        outline.classList.add('flight');
-        outline.classList.add('m-2');
+        //make left column for leaving flights
+        var flightsLeaving = document.createElement('div');
+        flightsLeaving.classList.add('d-flex');
+        flightsLeaving.classList.add('flex-column');
+        flightsLeaving.classList.add('justify-content-between');
+        flightsLeaving.classList.add('pr-4');
 
-        var img = document.createElement('img');
-        img.src = `${flights[i].image}`
-        img.style.width = '20vh';
-        outline.appendChild(img);
+        //make right column for returning flights
+        var flightsReturning = document.createElement('div');
+        flightsReturning.classList.add('d-flex');
+        flightsReturning.classList.add('flex-column');
+        flightsReturning.classList.add('justify-content-between');
+        flightsReturning.classList.add('pl-4');
 
-        var flightInfo = document.createElement('div');
-        flightInfo.classList.add('d-flex');
-        flightInfo.classList.add('flex-column');
-        flightInfo.classList.add('justify-content-around');
-        flightInfo.classList.add('grow-2');
-        
-        var namePrice = document.createElement('div');
-        namePrice.classList.add('d-flex');
-        namePrice.classList.add('justify-content-around');
-        
-        var name = document.createElement('h5');
-        name.textContent = `${flights[i].name}`;
-        namePrice.appendChild(name);
-        var price = document.createElement('h6');
-        price.textContent = `Price: $${flights[i].price}`;
-        namePrice.appendChild(price);
-        flightInfo.appendChild(namePrice);
+        var departFlights = flightsData.flightsLeave;
+        var returnFlights = flightsData.flightsReturn;
 
-        var seatsDuration = document.createElement('div');
-        seatsDuration.classList.add('d-flex');
-        seatsDuration.classList.add('justify-content-around');
-        var seats = document.createElement('p');
-        seats.textContent = `Seats Remaining: ${flights[i].numSeats}`
-        seatsDuration.appendChild(seats);
-        var duration = document.createElement('p');
-        duration.textContent = `Duration ${flights[i].duration}hrs`
-        seatsDuration.appendChild(duration);
-        flightInfo.appendChild(seatsDuration);
-        var link = document.createElement('a');
-        link.href = `http://${flights[i].website}`;
-        link.textContent = `${flights[i].website}`;
-        link.target = '_blank';
-        flightInfo.appendChild(link);
+        for(var i = 0 ; i < departFlights.length && i < returnFlights.length ; i++){
+            var outline = document.createElement('div');
+            outline.classList.add('d-flex');
+            outline.classList.add('align-items-center');
+            outline.classList.add('rounded');
+            outline.classList.add('navy-border');
+            outline.classList.add('flight');
+            outline.classList.add('m-2');
 
-        outline.appendChild(flightInfo);
+            var img = document.createElement('img');
+            img.src = `${departFlights[i].image}`
+            img.style.width = '20vh';
+            outline.appendChild(img);
 
-        document.getElementById('flight-results').appendChild(outline);
+            var flightInfo = document.createElement('div');
+            flightInfo.classList.add('d-flex');
+            flightInfo.classList.add('flex-column');
+            flightInfo.classList.add('justify-content-around');
+            flightInfo.classList.add('grow-2');
+            
+            var namePrice = document.createElement('div');
+            namePrice.classList.add('d-flex');
+            namePrice.classList.add('justify-content-around');
+            
+            var name = document.createElement('h5');
+            name.textContent = `${departFlights[i].name}`;
+            namePrice.appendChild(name);
+            var price = document.createElement('h6');
+            price.textContent = `Price: $${departFlights[i].price}`;
+            namePrice.appendChild(price);
+            flightInfo.appendChild(namePrice);
 
+            var seatsDuration = document.createElement('div');
+            seatsDuration.classList.add('d-flex');
+            seatsDuration.classList.add('justify-content-around');
+            var seats = document.createElement('p');
+            seats.textContent = `Seats Remaining: ${departFlights[i].numSeats}`
+            seatsDuration.appendChild(seats);
+            var duration = document.createElement('p');
+            duration.textContent = `Duration ${departFlights[i].duration}hrs`
+            seatsDuration.appendChild(duration);
+            flightInfo.appendChild(seatsDuration);
+            var link = document.createElement('a');
+            link.href = `http://${departFlights[i].website}`;
+            link.textContent = `${departFlights[i].website}`;
+            link.target = '_blank';
+            flightInfo.appendChild(link);
+
+            outline.appendChild(flightInfo);
+
+            flightsLeaving.appendChild(outline);
+        }
+        for(var i = 0 ; i < departFlights.length && i < returnFlights.length ; i++){
+            var outline = document.createElement('div');
+            outline.classList.add('d-flex');
+            outline.classList.add('align-items-center');
+            outline.classList.add('rounded');
+            outline.classList.add('navy-border');
+            outline.classList.add('flight');
+            outline.classList.add('m-2');
+
+            var img = document.createElement('img');
+            img.src = `${returnFlights[i].image}`
+            img.style.width = '20vh';
+            outline.appendChild(img);
+
+            var flightInfo = document.createElement('div');
+            flightInfo.classList.add('d-flex');
+            flightInfo.classList.add('flex-column');
+            flightInfo.classList.add('justify-content-around');
+            flightInfo.classList.add('grow-2');
+            
+            var namePrice = document.createElement('div');
+            namePrice.classList.add('d-flex');
+            namePrice.classList.add('justify-content-around');
+            
+            var name = document.createElement('h5');
+            name.textContent = `${returnFlights[i].name}`;
+            namePrice.appendChild(name);
+            var price = document.createElement('h6');
+            price.textContent = `Price: $${returnFlights[i].price}`;
+            namePrice.appendChild(price);
+            flightInfo.appendChild(namePrice);
+
+            var seatsDuration = document.createElement('div');
+            seatsDuration.classList.add('d-flex');
+            seatsDuration.classList.add('justify-content-around');
+            var seats = document.createElement('p');
+            seats.textContent = `Seats Remaining: ${returnFlights[i].numSeats}`
+            seatsDuration.appendChild(seats);
+            var duration = document.createElement('p');
+            duration.textContent = `Duration ${returnFlights[i].duration}hrs`
+            seatsDuration.appendChild(duration);
+            flightInfo.appendChild(seatsDuration);
+            var link = document.createElement('a');
+            link.href = `http://${returnFlights[i].website}`;
+            link.textContent = `${returnFlights[i].website}`;
+            link.target = '_blank';
+            flightInfo.appendChild(link);
+
+            outline.appendChild(flightInfo);
+
+            flightsReturning.appendChild(outline);
+        }
+        var leavingTitle = document.createElement('h4');
+        var returningTitle = document.createElement('h4');
+
+        leavingTitle.innerHTML = `flights from: ${params[0]}<br>to: ${params[1]}<br>on ${params[2]}`;
+        returningTitle.innerHTML = `flights from: ${params[1]}<br>to: ${params[0]}<br>on ${params[3]}`;
+
+        flightsLeaving.prepend(leavingTitle);
+        flightsReturning.prepend(returningTitle);
+
+        outerDiv.appendChild(flightsLeaving);
+        outerDiv.appendChild(flightsReturning);
+
+        document.getElementById('flight-results').appendChild(outerDiv);
+    }else{
+        var flights = flightsData.flightsLeave;
+        for(var i = 0 ; i < flights.length ; i++) {
+            var outline = document.createElement('div');
+            outline.classList.add('d-flex');
+            outline.classList.add('align-items-center');
+            outline.classList.add('rounded');
+            outline.classList.add('navy-border');
+            outline.classList.add('flight');
+            outline.classList.add('m-2');
+
+            var img = document.createElement('img');
+            img.src = `${flights[i].image}`
+            img.style.width = '20vh';
+            outline.appendChild(img);
+
+            var flightInfo = document.createElement('div');
+            flightInfo.classList.add('d-flex');
+            flightInfo.classList.add('flex-column');
+            flightInfo.classList.add('justify-content-around');
+            flightInfo.classList.add('grow-2');
+            
+            var namePrice = document.createElement('div');
+            namePrice.classList.add('d-flex');
+            namePrice.classList.add('justify-content-around');
+            
+            var name = document.createElement('h5');
+            name.textContent = `${flights[i].name}`;
+            namePrice.appendChild(name);
+            var price = document.createElement('h6');
+            price.textContent = `Price: $${flights[i].price}`;
+            namePrice.appendChild(price);
+            flightInfo.appendChild(namePrice);
+
+            var seatsDuration = document.createElement('div');
+            seatsDuration.classList.add('d-flex');
+            seatsDuration.classList.add('justify-content-around');
+            var seats = document.createElement('p');
+            seats.textContent = `Seats Remaining: ${flights[i].numSeats}`
+            seatsDuration.appendChild(seats);
+            var duration = document.createElement('p');
+            duration.textContent = `Duration ${flights[i].duration}hrs`
+            seatsDuration.appendChild(duration);
+            flightInfo.appendChild(seatsDuration);
+            var link = document.createElement('a');
+            link.href = `http://${flights[i].website}`;
+            link.textContent = `${flights[i].website}`;
+            link.target = '_blank';
+            flightInfo.appendChild(link);
+
+            outline.appendChild(flightInfo);
+
+            document.getElementById('flight-results').appendChild(outline);
+        }
     }
 }
 

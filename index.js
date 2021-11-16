@@ -254,7 +254,7 @@ app.get('/getflights/:search', async(req,res) => {
             "method": "GET",
             "headers": {
                 "x-rapidapi-host": "priceline-com-provider.p.rapidapi.com",
-                "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
+                "x-rapidapi-key": "9b5960201fmsh3b87e1ff529e13ap1b03e7jsn5fa09936d25a"
             }
         });
         let responseFlightData = await responseFlight.json();
@@ -268,7 +268,7 @@ app.get('/getflights/:search', async(req,res) => {
                     "method": "GET",
                     "headers": {
                         "x-rapidapi-host": "bing-image-search1.p.rapidapi.com",
-                        "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
+                        "x-rapidapi-key": "9b5960201fmsh3b87e1ff529e13ap1b03e7jsn5fa09936d25a"
                     }
                 })).json();
 
@@ -399,7 +399,7 @@ app.get('/getflights/:search', async(req,res) => {
             "method": "GET",
             "headers": {
                 "x-rapidapi-host": "priceline-com-provider.p.rapidapi.com",
-                "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
+                "x-rapidapi-key": "9b5960201fmsh3b87e1ff529e13ap1b03e7jsn5fa09936d25a"
             }
         })).json();
         
@@ -410,7 +410,7 @@ app.get('/getflights/:search', async(req,res) => {
             "method": "GET",
             "headers": {
                 "x-rapidapi-host": "priceline-com-provider.p.rapidapi.com",
-                "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
+                "x-rapidapi-key": "9b5960201fmsh3b87e1ff529e13ap1b03e7jsn5fa09936d25a"
             }
         })).json();
         
@@ -564,7 +564,6 @@ app.get('/getresults/:search', async (req,res) => {
         }
         res.json(results);
     }catch(e) {
-        console.log(e);
         res.send('error');
     }
 });

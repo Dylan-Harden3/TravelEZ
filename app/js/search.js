@@ -97,6 +97,7 @@ async function setSearch() {
     var searchFields = document.getElementsByClassName('txt');
     var search = "";
     var locationSeach = localStorage.getItem('location-selected');
+    var flightSelected = localStorage.getItem('flight-selected');
     // iterate all search fields, if the search field was selected then we use its content
     for(var i = 0 ; i < searchFields.length ; i++) {
         if(searchFields[i].parentElement.classList.contains('selected')){
@@ -111,12 +112,9 @@ async function setSearch() {
             }
         }
     }
-    if(search.split(',').length - 1 == 3){
-        search = search.substring(0,search.length - 1);
-    }
     // now we set the search in local storage so we can access it when loading the results page
     localStorage.setItem('lastSearch',localStorage.getItem('search'));
-    localStorage.setItem('search',search)
+    localStorage.setItem('search',search);
 }
 
 function toggleRoundTrip() {
