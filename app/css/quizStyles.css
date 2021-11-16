@@ -5,11 +5,6 @@
     --color3: #FFF;
 }
 
-/* header items */
-.header {
-    padding: 30px;
-}
-
 .maxWidth80 {
     max-width: 80%;
     margin: 0 auto;
@@ -17,8 +12,18 @@
     text-align: center;
 }
 
+/* header items */
+.header {
+    padding: 30px;
+}
+
 .header h1 {
     text-align: center;
+}
+
+.header a {
+    color: var(--color2);
+    text-decoration: none;
 }
 
 /* boxed items (with borders) */
@@ -33,6 +38,6 @@
 
 /* submit button */
 .submit {
-    max-width: 100px;
-    max-height: 80px;
+    color: var(--color3);
+    background-color: var(--color1);
 }

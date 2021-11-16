@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TravelEZ Quiz Page</title>
 
+    <!--website icon-->
+    <link rel="shortcut icon" href="../branding/logoAP.PNG" type="image/png">
+
     <!--local css imports-->
     <link rel="stylesheet" href="../css/quizStyles.css">
 
@@ -18,12 +21,13 @@
 </head>
 <body>
     <!--header-->
-
     <section class="header">
         <div class="row justify-content-around maxWidth80 mx-auto">
             <!--back button-->
             <div class="col-1">
-                <i class="fa fa-arrow-left"></i>
+                <a href="search.html">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
             </div>
     
             <!--page header-->
@@ -39,11 +43,34 @@
             </div>
         </div>
     </section>
+
+    <!--Questions-->
     <div class="d-flex justify-content-center flex-column maxWidth80">
          <!--question 1-->
         <div class="row justify-content-center w-100">
             <div class="col box">
-                <h1>QUESTION 1</h1>  <!--NEED TO CHANGE-->
+                <h1>QUESTION 1</h1>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="q1a1">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        ANSWER 1
+                    </label>
+                </div>
+    
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="q2a2" checked>
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        ANSWER 2
+                    </label>
+                </div>
+    
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="q3a3" checked>
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        ANSWER 3
+                    </label>
+                </div>
             </div>
         </div>
 
@@ -63,10 +90,7 @@
 
         <!--submit button-->
         <div class="row justify-content-center">
-            <!-- <button class="btn-sm col-7 col-sm-5 col-md-3 col-lg-2 box submit">
-                
-            </button> -->
-            <a href="" class="btn btn-lg bg-danger text-white">Submit</a>
+            <a href="#" class="btn btn-default btn-lg btn-danger">Submit</a>
         </div>
     </div>
    
