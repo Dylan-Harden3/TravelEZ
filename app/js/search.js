@@ -110,7 +110,7 @@ async function setSearch() {
             }
         }
     }
-    if(localStorage.getItem('hotel-selected') == 'true' || (localStorage.getItem('flight-selected') == 'true' && search.split(',').length-1 == 3)){
+    if(localStorage.getItem('hotel-selected') == 'true' || localStorage.getItem('roundTrip') == 'false'){
         search = search.substr(0,search.length-1);
     }
     // now we set the search in local storage so we can access it when loading the results page
@@ -121,7 +121,9 @@ async function setSearch() {
 function toggleRoundTrip() {
     if(document.getElementById('roundTripSelector').checked){
         document.getElementById('roundTripInput').style.display = 'block';
+        localStorage.setItem('roundTrip','true');
     }else {
         document.getElementById('roundTripInput').style.display = 'none';
+        localStorage.setItem('roundTrip','false');
     }
 }
