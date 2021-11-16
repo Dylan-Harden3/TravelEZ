@@ -218,6 +218,7 @@ async function setHotels(data) {
         outline.classList.add('navy-border');
         outline.classList.add('flight');
         outline.classList.add('m-2');
+        outline.classList.add('w-75')
 
         var img = document.createElement('img');
         img.src = `${hotels[i].image}`
@@ -423,6 +424,7 @@ async function setFlights(flightsData) {
             outline.classList.add('navy-border');
             outline.classList.add('flight');
             outline.classList.add('m-2');
+            outline.classList.add('w-75');
 
             var img = document.createElement('img');
             img.src = `${flights[i].image}`
@@ -520,6 +522,12 @@ function changeBar(type) {
     var newSelected = document.getElementById(realId);
     newSelected.classList.add('selected');
     newSelected.classList.remove('not-selected');
+    console.log('type ' + type)
+    if(type == 'flight'){
+        document.getElementById('round-trip').style.display = 'block';
+    }else {
+        document.getElementById('round-trip').style.display = 'none';
+    }
 }
 
 async function deleteLoading() {

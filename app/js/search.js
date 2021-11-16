@@ -47,14 +47,12 @@ function toggleOutline(icon) {
             }
         }
     }
-    if(window.location.href.split('/').at(-1) == 'search.html'){
         var roundTrip = document.getElementById('round-trip');
         if(localStorage.getItem('flight-selected') == 'true'){
             roundTrip.style.display = 'block';
         }else {
             roundTrip.style.display = 'none';
         }
-    }
 }
 
 // change the search bar
@@ -111,6 +109,9 @@ async function setSearch() {
                 }
             }
         }
+    }
+    if(localStorage.getItem('hotel-selected') == 'true' || (localStorage.getItem('flight-selected') == 'true' && search.split(',').length-1 == 3)){
+        search = search.substr(0,search.length-1);
     }
     // now we set the search in local storage so we can access it when loading the results page
     localStorage.setItem('lastSearch',localStorage.getItem('search'));
