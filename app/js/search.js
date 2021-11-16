@@ -47,11 +47,13 @@ function toggleOutline(icon) {
             }
         }
     }
-    var roundTrip = document.getElementById('round-trip');
-    if(localStorage.getItem('flight-selected') == 'true'){
-        roundTrip.style.display = 'block';
-    }else {
-        roundTrip.style.display = 'none';
+    if(window.location.href.split('/').at(-1) == 'search.html'){
+        var roundTrip = document.getElementById('round-trip');
+        if(localStorage.getItem('flight-selected') == 'true'){
+            roundTrip.style.display = 'block';
+        }else {
+            roundTrip.style.display = 'none';
+        }
     }
 }
 
@@ -115,4 +117,12 @@ async function setSearch() {
     // now we set the search in local storage so we can access it when loading the results page
     localStorage.setItem('lastSearch',localStorage.getItem('search'));
     localStorage.setItem('search',search)
+}
+
+function toggleRoundTrip() {
+    if(document.getElementById('roundTripSelector').checked){
+        document.getElementById('roundTripInput').style.display = 'block';
+    }else {
+        document.getElementById('roundTripInput').style.display = 'none';
+    }
 }

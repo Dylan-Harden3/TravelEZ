@@ -11,6 +11,10 @@ window.onload = async () => {
     await deleteLoading();
 }
 
+async function setError() {
+    window.location.href = 'error.html';
+}
+
 async function isSameSearch(){
     return localStorage.getItem('search') == localStorage.getItem('lastSearch');
 }
@@ -48,7 +52,10 @@ async function isValidInput(search){
 async function getWeather(text) {
     const responseWeather = await fetch(`../../getweather/${text}`);
     const jsonWeather = await responseWeather.text();
-    
+    if(jsonWeather.startsWith('error')){
+        await setError();
+        return;
+    }
     await setWeather(jsonWeather);
 }
 
@@ -56,7 +63,10 @@ async function getWeather(text) {
 async function getTime(text) {
     const responseTime = await fetch(`../../gettime/${text}`);
     const jsonTime = await responseTime.text();
-    
+    if(jsonTime.startsWith('error')){
+        await setError();
+        return;
+    }
     await setTime(jsonTime);
 }
 
@@ -71,6 +81,10 @@ async function getHotels(text) {
 async function searchHotels(text) {
     const hotelSearchResponse = await fetch(`../../searchhotels/${text}`);
     const jsonHotelSearch = await hotelSearchResponse.json();
+    if(jsonHotelSearch.error){
+        await setError();
+        return;
+    }
     await setHotels(jsonHotelSearch);
 }
 
@@ -88,6 +102,10 @@ async function setTime(text) {
 
 // set the hotels and landmarks from a location search
 async function setResults(info) {
+    if(info.error) {
+        await setError();
+        return;
+    }
     var searchV = document.getElementById('search-value');
     searchV.innerHTML = `Showing results for <br>${localStorage.getItem('search')}`;
     var hotelResults = document.getElementById('hotel-results');
@@ -242,6 +260,10 @@ async function setHotels(data) {
 async function searchflights(text) {
     const responseFlights = await fetch(`../../getflights/${text}`);
     const jsonFlights = await responseFlights.json();
+    if(jsonFlights.error){
+        await setError();
+        return;
+    }
     await setFlights(jsonFlights);
 }
 

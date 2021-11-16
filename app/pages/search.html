@@ -69,11 +69,12 @@
                     <input type="text" class="form-control border-navy rounded txt" placeholder="Leaving From">
                     <input type="text" class="form-control border-navy rounded txt" placeholder="Going To">
                     <input type="text" class="form-control border-navy rounded txt" placeholder="departure date" onfocus="(this.type='date')">
+                    <input type='text' class="form-control border-navy rounded txt" placeholder="return date" onfocus="(this.type='date')" id="roundTripInput" style="display: none;">
                     <input type="submit" class="btn bg-red btn-lg text-white ml-1" value="Search">
                 </form>
                 <div class="d-flex justify-content-around align-items-center">
                   <div class="form-check" id="round-trip">
-                    <input class="form-check-input" type="checkbox" value="" id="roundTripSelector">
+                    <input class="form-check-input" type="checkbox" value="" id="roundTripSelector" onclick="toggleRoundTrip()">
                     <label class="form-check-label" for="flexCheckDefault">
                       Round Trip
                     </label>

@@ -61,12 +61,21 @@
                       <input type="text" class="form-control border-navy rounded txt" placeholder="Check-out date" onfocus="(this.type='date')">
                       <input type="submit" class="btn bg-red btn-sm text-white ml-1" value="Search">
                   </form>
-                  <form class="input-group not-selected" id="flight-search" action="result.html">
+                  <div class="d-flex flex-column">
+                    <form class="input-group not-selected" id="flight-search" action="result.html">
                       <input type="text" class="form-control border-navy rounded txt" placeholder="Leaving From">
                       <input type="text" class="form-control border-navy rounded txt" placeholder="Going To">
                       <input type="text" class="form-control border-navy rounded txt" placeholder="departure date" onfocus="(this.type='date')">
+                      <input type='text' class="form-control border-navy rounded txt" placeholder="return date" onfocus="(this.type='date')" id="roundTripInput" style="display: none;">
                       <input type="submit" class="btn bg-red btn-sm text-white ml-1" value="Search">
-                  </form>
+                    </form>
+                    <div class="form-check" id="round-trip">
+                      <input class="form-check-input" type="checkbox" value="" id="roundTripSelector" onclick="toggleRoundTrip()">
+                      <label class="form-check-label" for="flexCheckDefault">
+                        Round Trip
+                      </label>
+                    </div>
+                  </div>
               </div>
           </div>
           <div class="jumbotron rounded-3 text-center d-flex flex-column align-items-center justify-content-center mt-2 ml-5 quiz-link">
