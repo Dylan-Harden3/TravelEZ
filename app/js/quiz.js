@@ -36,6 +36,7 @@ async function submit() {
 // quiz results 
 async function getResults(text) {
     console.log("submitting: ", text);
+    console.log("(not submitted to server yet, check line 40 of quiz.js)");
     return;  // temp since not hooked up to backend yet
     const responseResults = await fetch(`../../getresults/${text}`);  // text = <type>,<activities>,<weather>
     console.log(responseResults);
