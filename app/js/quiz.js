@@ -5,10 +5,13 @@ async function submit() {
     // type (question 1)
     if (document.getElementById("q1a1").checked) {
         type = "Coastal";
+        document.getElementById("q1a1").checked = false;
     } else if (document.getElementById("q1a2").checked) {
         type = "Continental";
+        document.getElementById("q1a2").checked = false;
     } else if (document.getElementById("q1a3").checked) {
         type = "Exotic";
+        document.getElementById("q1a3").checked = false;
     } else {
         type = "n/a";
     }
@@ -16,10 +19,13 @@ async function submit() {
     // activities (question 2)
     if (document.getElementById("q2a1").checked) {
         activities = "Sightseeing";
+        document.getElementById("q2a1").checked = false;
     } else if (document.getElementById("q2a2").checked) {
         activities = "Outdoor Adventure";
+        document.getElementById("q2a2").checked = false;
     } else if (document.getElementById("q2a3").checked) {
         activities = "Leisure";
+        document.getElementById("q2a3").checked = false;
     } else {
         activities = "n/a";
     }
@@ -27,10 +33,13 @@ async function submit() {
     // weather (question 3)
     if (document.getElementById("q3a1").checked) {
         weather = "Hot";
+        document.getElementById("q3a1").checked = false;
     } else if (document.getElementById("q3a2").checked) {
         weather = "Temperate";
+        document.getElementById("q3a2").checked = false;
     } else if (document.getElementById("q3a3").checked) {
         weather = "Cold";
+        document.getElementById("q3a3").checked = false;
     } else {
         weather = "n/a";
     }
