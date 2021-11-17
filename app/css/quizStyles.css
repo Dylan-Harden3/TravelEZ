@@ -5,6 +5,10 @@
     --color3: #FFF;
 }
 
+* {
+    background-color: var(--color3);
+}
+
 .maxWidth80 {
     max-width: 80%;
     margin: 0 auto;
@@ -32,7 +36,7 @@
 
 /* question items */
 .text {
-    color: var(--color1);
+    color: var(--color2);
 }
 
 /* boxed items (with borders) */
@@ -44,5 +48,3 @@
     padding: 20px;
     margin: 20px;
 }
-
-/* submit button */
