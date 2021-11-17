@@ -99,6 +99,7 @@ async function setSearch() {
     // iterate all search fields, if the search field was selected then we use its content
     for(var i = 0 ; i < searchFields.length ; i++) {
         if(searchFields[i].parentElement.classList.contains('selected')){
+
             if(i == searchFields.length-1) {
                 search += searchFields[i].value;
             }else {
@@ -110,8 +111,12 @@ async function setSearch() {
             }
         }
     }
-    if(localStorage.getItem('hotel-selected') == 'true' || localStorage.getItem('roundTrip') == 'false'){
-        search = search.substr(0,search.length-1);
+    if(search.charAt(search.length-1) == ','){
+        if(search.split(',').filter(x => x == '').length == 1){
+            console.log('search before change ' + search)
+            search = search.substr(0,search.length-1);
+            console.log('search after change ' + search)
+        }
     }
     // now we set the search in local storage so we can access it when loading the results page
     localStorage.setItem('lastSearch',localStorage.getItem('search'));

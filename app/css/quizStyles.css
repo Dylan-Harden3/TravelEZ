@@ -5,7 +5,46 @@
     --color3: #FFF;
 }
 
-/* any item will have these properties */
+* {
+    background-color: var(--color3);
+}
+
+.maxWidth80 {
+    max-width: 80%;
+    margin: 0 auto;
+    align-items: center;
+    text-align: center;
+}
+
+.margin {
+    margin: 0 5px;
+}
+
+/* header items */
+.header {
+    padding: 30px;
+}
+
+.header h1 {
+    text-align: center;
+}
+
+.header a {
+    color: var(--color2);
+    text-decoration: none;
+}
+
+/* question items */
+.text {
+    color: var(--color2);
+}
+
+.answers {
+    display: inline-block;
+    text-align: left;
+}
+
+/* boxed items (with borders) */
 .box {
     border: solid;
     border-radius: 10px;
@@ -13,10 +52,5 @@
     /* font-weight: 600; */
     padding: 20px;
     margin: 20px;
-}
-
-/* submit button */
-.submit {
-    max-width: 100px;
-    max-height: 80px;
+    
 }
