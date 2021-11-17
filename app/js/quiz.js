@@ -7,8 +7,10 @@ async function submit() {
         type = "Coastal";
     } else if (document.getElementById("q1a2").checked) {
         type = "Continental";
-    } else {
+    } else if (document.getElementById("q1a3").checked) {
         type = "Exotic";
+    } else {
+        type = "n/a";
     }
 
     // activities (question 2)
@@ -16,8 +18,10 @@ async function submit() {
         activities = "Sightseeing";
     } else if (document.getElementById("q2a2").checked) {
         activities = "Outdoor Adventure";
-    } else {
+    } else if (document.getElementById("q2a3").checked) {
         activities = "Leisure";
+    } else {
+        activities = "n/a";
     }
 
     // weather (question 3)
@@ -25,14 +29,19 @@ async function submit() {
         weather = "Hot";
     } else if (document.getElementById("q3a2").checked) {
         weather = "Temperate";
-    } else {
+    } else if (document.getElementById("q3a3").checked) {
         weather = "Cold";
+    } else {
+        weather = "n/a";
     }
 
-    // submitting answers
-    await getResults(`${type},${activities},${weather}`);
+    if(weather == "n/a" || activities == "n/a" || type == "n/a"){
+        alert("You must enter all fields");
+    }else {
+        // submitting answers
+        await getResults(`${type},${activities},${weather}`);
+    }
 }
-
 // quiz results 
 async function getResults(text) {
     console.log("submitting: ", text);
@@ -41,3 +50,5 @@ async function getResults(text) {
     const responseResults = await fetch(`../../getresults/${text}`);  // text = <type>,<activities>,<weather>
     console.log(responseResults);
 }
+
+// 
