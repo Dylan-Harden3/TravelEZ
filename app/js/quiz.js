@@ -4,29 +4,29 @@ async function submit() {
 
     // type (question 1)
     if (document.getElementById("q1a1").checked) {
-        type = "0";
+        type = "Coastal";
     } else if (document.getElementById("q1a2").checked) {
-        type = "1";
+        type = "Continental";
     } else {
-        type = "2";
+        type = "Exotic";
     }
 
     // activities (question 2)
     if (document.getElementById("q2a1").checked) {
-        activities = "0";
+        activities = "Sightseeing";
     } else if (document.getElementById("q2a2").checked) {
-        activities = "1";
+        activities = "Outdoor Adventure";
     } else {
-        activities = "2";
+        activities = "Leisure";
     }
 
     // weather (question 3)
     if (document.getElementById("q3a1").checked) {
-        weather = "0";
+        weather = "Hot";
     } else if (document.getElementById("q3a2").checked) {
-        weather = "1";
+        weather = "Temperate";
     } else {
-        weather = "2";
+        weather = "Cold";
     }
 
     // submitting answers
