@@ -39,6 +39,11 @@
     color: var(--color2);
 }
 
+.answers {
+    display: inline-block;
+    text-align: left;
+}
+
 /* boxed items (with borders) */
 .box {
     border: solid;
@@ -47,4 +52,5 @@
     /* font-weight: 600; */
     padding: 20px;
     margin: 20px;
+    
 }
