@@ -659,7 +659,7 @@ let vacations = {
                     images : [
                         "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F28%2F2020%2F03%2F20%2Fcarlsbad-cavern-green-CBAD0320.jpg",
                         "https://www.nps.gov/articles/000/images/Mark-Minton-descending-rope-from-Mabel_s-Room-to-Mystery-Room-Yvonne-Droms.JPG?maxwidth=1200&maxheight=1200&autorotate=false",
-                        "https://www.gannett-cdn.com/media/2017/04/13/TXNMGroup/Carlsbad/636276990151324167-carlsbad3.jpg?width=640"
+                        "https://d21yqjvcoayho7.cloudfront.net/wp-content/uploads/2015/03/salughter.jpeg"
                     ],
                     airport : "el paso",
                     description : "Come see thousands of years of developing rock formations in the famous Carlsbad Caverns"
@@ -691,7 +691,7 @@ let vacations = {
                     images : [
                         "https://i2.wp.com/morethanjustparks.com/wp-content/uploads/2021/06/sequoia-2.jpg?fit=1800%2C1201&ssl=1",
                         "https://drupal8-prod.visitcalifornia.com/sites/drupal8-prod.visitcalifornia.com/files/styles/fluid_1200/public/vc_ca101_nationalparks_sequoiakingsnationalparks_rf_673066812_1280x640.jpg?itok=EVBZ0WOL",
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/General_Sherman_tree_looking_up.jpg/1200px-General_Sherman_tree_looking_up.jpg"
+                        "http://cdn.cnn.com/cnnnext/dam/assets/180309132748-04-sequoia-park.jpg"
                     ],
                     airport : "fresno",
                     description : "Stand in awe at the largest trees in the world and observe the beautiful wildlife in this stunning national park"
