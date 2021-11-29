@@ -132,3 +132,26 @@ function toggleRoundTrip() {
         localStorage.setItem('roundTrip','false');
     }
 }
+
+// goes to the quiz results page with the vacation entered displayed
+function viewVacation(num) {
+    let text;
+    switch(num) {
+        case 0:
+            text = "Coastal,Sightseeing,Cold";
+            break;
+        case 1:
+            text = "Continental,Leisure,Hot";
+            break;
+        case 2:
+            text = "Coastal,Sightseeing,Temperate";
+            break;
+        default:
+            console.log("none selected");
+    }
+    console.log(num);
+    console.log(text);
+    // getting info about city
+    localStorage.setItem('quizResults', text);
+    window.location.href = "quizResults.html";
+}
