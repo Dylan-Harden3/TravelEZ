@@ -103,6 +103,7 @@ body {
 
 .bg-slide {
     min-height: 100vh;
+    max-width: 100vw;
     animation: slide 60s infinite;
     background-size: cover;
 }
@@ -214,5 +215,17 @@ body {
     }
     .card {
         margin: 10px auto;
+    }
+    #search-tag {
+        display: none;
+    }
+    .input-group {
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .txt {
+        width: 100% !important;
+        margin-bottom: 3px !important;
     }
 }
