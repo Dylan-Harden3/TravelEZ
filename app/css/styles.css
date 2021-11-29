@@ -162,6 +162,7 @@ body {
 
 .accordion-button:hover {
     border: 5px solid #D03737;
+    cursor: pointer;
 }
 
 .accordion-body {
