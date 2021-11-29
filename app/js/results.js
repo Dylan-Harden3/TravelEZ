@@ -1,3 +1,4 @@
+var ids = [];
 
 window.onload = async () => {
     // when we load the window we do the search

@@ -233,4 +233,9 @@ body {
         width: 100% !important;
         margin-bottom: 3px !important;
     }
+    .person {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 }
