@@ -152,6 +152,22 @@ body {
     height: 100%;
 }
 
+#faq h4 {
+    margin: 10px auto;
+}
+
+.accordion-button {
+    width: 75%;
+}
+
+.accordion-button:hover {
+    border: 5px solid #D03737;
+}
+
+.accordion-body {
+    margin-bottom: 10px;
+}
+
 @keyframes slide {
     0% {
         background-image: url("../img/liberty.jpg");
