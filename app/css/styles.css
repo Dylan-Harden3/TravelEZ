@@ -238,4 +238,10 @@ body {
         align-items: center;
         justify-content: center;
     }
+    .flight {
+        flex-direction: column;
+    }
+    #round-trip {
+        flex-direction: column;
+    }
 }

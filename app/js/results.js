@@ -2,12 +2,12 @@ var ids = [];
 
 window.onload = async () => {
     // when we load the window we do the search
-    if(!await isSameSearch()){
+    // if(!await isSameSearch()){
         console.log('search: ' + localStorage.getItem('search'))
         await search(localStorage.getItem('search'));
         // set the smaller search bar to the search which was entered
         await setResultsSearch();
-    }
+    //}
     // once the search is complete we remove the loading screen
     await deleteLoading();
 }
@@ -16,9 +16,9 @@ async function setError() {
     window.location.href = 'error.html';
 }
 
-async function isSameSearch(){
-    return localStorage.getItem('search') == localStorage.getItem('lastSearch');
-}
+// async function isSameSearch(){
+//     return localStorage.getItem('search') == localStorage.getItem('lastSearch');
+// }
 
 async function search(text)  {
     // here we can either have a location search, a hotel search, or a flight searchs
@@ -280,6 +280,7 @@ async function setFlights(flightsData) {
         var outerDiv = document.createElement('div');
         outerDiv.classList.add('d-flex');
         outerDiv.classList.add('justify-content-evenly');
+        outerDiv.id = 'round-trip';
 
         //make left column for leaving flights
         var flightsLeaving = document.createElement('div');
