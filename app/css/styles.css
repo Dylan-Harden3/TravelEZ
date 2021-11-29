@@ -147,6 +147,11 @@ body {
     transform: translate(-50%,-50%);
 }
 
+.full {
+    min-height: 100vh;
+    height: 100%;
+}
+
 @keyframes slide {
     0% {
         background-image: url("../img/liberty.jpg");
