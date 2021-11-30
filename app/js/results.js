@@ -310,8 +310,8 @@ window.onload = async () => {
         await search(localStorage.getItem('search'));
         // set the smaller search bar to the search which was entered
         await setResultsSearch();
-    // once the search is complete we remove the loading screen
-    await deleteLoading();
+        // once the search is complete we remove the loading screen
+        await deleteLoading();
 }
 
 async function setError() {
@@ -325,6 +325,8 @@ async function search(text)  {
             await getHotels(text);
             await getWeather(text);
             await getTime(text);
+            document.getElementById('hotelSort').style.display = 'block';
+            document.getElementById('flightSort').style.display = 'none';
         }else if(localStorage.getItem('hotel-selected') == 'true'){ 
             await searchHotels(text);
         }else {
