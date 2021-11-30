@@ -70,15 +70,6 @@ function setSearchBar(icon) {
     newSelected.classList.remove('not-selected');
 }
 
-let vacations = [
-    {
-        
-    },
-    {
-
-    },
-];
-
 // each time the window is loaded we set the search to location by default
 window.onload = () => {
     var locationSelected = localStorage.getItem('location-selected');

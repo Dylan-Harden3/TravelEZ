@@ -292,16 +292,27 @@ function updateHotels() {
 }
 
 function updateFlights() {
-    var outer = document.getElementById('flight-results');
-    outer.innerHTML = '';
-    flightResultsInfo.leaving.forEach((flight) => {
-        outer.innerHTML += flight.text;
-    })
-    if(localStorage.getItem('roundTrip') == 'true') {
+    console.log(`roundTrip: ${localStorage.getItem('roundTrip')}`)
+    if(localStorage.getItem('roundTrip') == 'true'){
+        let leaving = document.getElementById('flightsLeaving');
+        let search = localStorage.getItem('search').split(',');
+        leaving.innerHTML = `<h4>flights from: ${search[0]}<br>to: ${search[1]}<br>on ${search[2]}</h4>`;
+        flightResultsInfo.leaving.forEach((flight) => {
+            leaving.innerHTML += flight.text;
+        })
+        let returning = document.getElementById('flightsReturning');
+        returning.innerHTML = `<h4>flights from: ${search[1]}<br>to: ${search[0]}<br>on ${search[3]}</h4>`;
         flightResultsInfo.returning.forEach((flight) => {
+            returning.innerHTML += flight.text;
+        })
+    }else {
+        let outer = document.getElementById('flight-results');
+        outer.innerHTML = '';
+        flightResultsInfo.leaving.forEach((flight) => {
             outer.innerHTML += flight.text;
         })
     }
+
 }
 
 window.onload = async () => {
@@ -312,6 +323,7 @@ window.onload = async () => {
         await setResultsSearch();
         // once the search is complete we remove the loading screen
         await deleteLoading();
+        //localStorage.setItem('roundTrip','false');
 }
 
 async function setError() {
@@ -325,7 +337,7 @@ async function search(text)  {
             await getHotels(text);
             await getWeather(text);
             await getTime(text);
-            document.getElementById('hotelSort').style.display = 'block';
+            document.getElementById('hotelSort').style.display = 'none';
             document.getElementById('flightSort').style.display = 'none';
         }else if(localStorage.getItem('hotel-selected') == 'true'){ 
             await searchHotels(text);
@@ -602,6 +614,7 @@ async function setFlights(flightsData) {
         flightsLeaving.classList.add('flex-column');
         flightsLeaving.classList.add('justify-content-between');
         flightsLeaving.classList.add('pr-4');
+        flightsLeaving.id = 'flightsLeaving';
 
         //make right column for returning flights
         var flightsReturning = document.createElement('div');
@@ -609,6 +622,7 @@ async function setFlights(flightsData) {
         flightsReturning.classList.add('flex-column');
         flightsReturning.classList.add('justify-content-between');
         flightsReturning.classList.add('pl-4');
+        flightsReturning.id = 'flightsReturning';
 
         var departFlights = flightsData.flightsLeave;
         var returnFlights = flightsData.flightsReturn;

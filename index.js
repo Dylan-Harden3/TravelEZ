@@ -91,7 +91,7 @@ app.get('/gethotels/:search', async(req,res) => {
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-host": "bing-image-search1.p.rapidapi.com",
-                    "x-rapidapi-key": "a78338c436mshde13931799f7c20p10308bjsn5283b6acf0dc"
+                    "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
                 }
             });
             const data = await response.json();
@@ -128,7 +128,7 @@ app.get('/gethotels/:search', async(req,res) => {
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-host": "bing-image-search1.p.rapidapi.com",
-                    "x-rapidapi-key": "a78338c436mshde13931799f7c20p10308bjsn5283b6acf0dc"
+                    "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
                 }
             });
             const imgData = await hotelImgSearch.json();
@@ -268,7 +268,7 @@ app.get('/getflights/:search', async(req,res) => {
                     "method": "GET",
                     "headers": {
                         "x-rapidapi-host": "bing-image-search1.p.rapidapi.com",
-                        "x-rapidapi-key": "9b5960201fmsh3b87e1ff529e13ap1b03e7jsn5fa09936d25a"
+                        "x-rapidapi-key": "9f65bda9f0mshb1bda8f9b7b151bp1d2291jsn83a7a7023b3d"
                     }
                 })).json();
 
