@@ -98,16 +98,26 @@
               </form>
             </div> -->
           </div>
-          <div class="col">
+          <div class="col" id='sortingZ'>
             <div class="jumbotron bg-navy text-right">
-              <div class="dropdown w-100">
+              <div class="dropdown w-100" id="hotelSort">
                 <button class="btn bg-red text-white dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                  Sort
+                  Sort Hotels
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                  <li><button class="dropdown-item" type="button">This</button></li>
-                  <li><button class="dropdown-item" type="button">Does Not</button></li>
-                  <li><button class="dropdown-item" type="button">Work Yet</button></li>
+                  <li><button class="dropdown-item" type="button" id="stars">Stars</button></li>
+                  <li><button class="dropdown-item" type="button" id="lowtohighhotels">Price (Low to High)</button></li>
+                  <li><button class="dropdown-item" type="button" id="hightolowhotels">Price (High to Low)</button></li>
+                </ul>
+              </div>
+              <div class="dropdown w-100" id="flightSort">
+                <button class="btn bg-red text-white dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                  Sort Fligths
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <li><button class="dropdown-item" type="button" id="duration">Shortest Duration</button></li>
+                  <li><button class="dropdown-item" type="button" id="lowtohighflights">Price (Low to High)</button></li>
+                  <li><button class="dropdown-item" type="button" id="hightolowflights">Price (High to Low)</button></li>
                 </ul>
               </div>
             </div>

@@ -1,13 +1,315 @@
-var ids = [];
+let hotelResultsInfo = [
+    {
+        id : 0,
+        stars : 0,
+        price : 0,
+        text : ""
+    },
+    {
+        id : 1,
+        stars : 0,
+        price : 0,
+        text : ""
+    },
+    {
+        id : 2,
+        stars : 0,
+        price : 0,
+        text : ""
+    },
+    {
+        id : 3,
+        stars : 0,
+        price : 0,
+        text : ""
+    },
+    {
+        id : 4,
+        stars : 0,
+        price : 0,
+        text : ""
+    },
+    {
+        id : 5,
+        stars : 0,
+        price : 0,
+        text : ""
+    },
+    {
+        id : 6,
+        stars : 0,
+        price : 0,
+        text : ""
+    },
+    {
+        id : 7,
+        stars : 0,
+        price : 0,
+        text : ""
+    },
+    {
+        id : 8,
+        stars : 0,
+        price : 0,
+        text : ""
+    },
+    {
+        id : 9,
+        stars : 0,
+        price : 0,
+        text : ""
+    }
+];
+
+let flightResultsInfo = {
+    leaving : [
+        {
+            id : 0,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 1,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 2,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 3,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 4,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 5,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 6,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 7,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 8,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 9,
+            duration : 0,
+            price : 0,
+            text : ""
+        }
+    ],
+    returning : [
+        {
+            id : 0,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 1,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 2,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 3,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 4,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 5,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 6,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 7,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 8,
+            duration : 0,
+            price : 0,
+            text : ""
+        },
+        {
+            id : 9,
+            duration : 0,
+            price : 0,
+            text : ""
+        }
+    ]
+};
+
+var sorters = document.getElementsByClassName('dropdown-item');
+
+for(var i = 0 ; i < sorters.length ; i++){
+    sorters[i].onclick = sortResults;
+}
+
+function sortResults() {
+
+    if(this.id == 'stars'){
+        sortStars();
+        updateHotels();
+    }else if(this.id == 'lowtohighhotels'){
+        sortLowHotels();
+        updateHotels();
+    }else if(this.id == 'hightolowhotels'){
+        sortHighHotels();
+        updateHotels();
+    }else if(this.id == 'duration'){
+        sortDuration();
+        updateFlights();
+    }else if(this.id == 'lowtohighflights'){
+        sortLowFlights();
+        updateFlights();
+    }else if(this.id == 'hightolowflights'){
+        sortHighFlights();
+        updateFlights();
+    }
+}
+
+function sortStars() {
+
+    hotelResultsInfo.sort((a , b) => {
+        return b.stars - a.stars;
+    })
+
+}
+
+function sortLowHotels() {
+
+    hotelResultsInfo.sort((a , b) => {
+        return a.price - b.price;
+    })
+
+}
+
+function sortHighHotels() {
+
+    hotelResultsInfo.sort((a , b) => {
+        return b.price - a.price;
+    })
+
+}
+
+function sortDuration() {
+
+    flightResultsInfo.leaving.sort((a , b) => {
+        return a.duration - b.duration;
+    })
+
+    if(localStorage.getItem('roundTrip') == 'true'){
+        flightResultsInfo.returning.sort((a , b) => {
+            return a.duration - b.duration;
+        })
+    }
+    
+}
+
+function sortLowFlights() {
+
+    flightResultsInfo.leaving.sort((a , b) => {
+        return a.price - b.price;
+    })
+
+    if(localStorage.getItem('roundTrip') == 'true'){
+        flightResultsInfo.returning.sort((a , b) => {
+            return a.price - b.price;
+        })
+    }
+    
+}
+
+function sortHighFlights() {
+
+    flightResultsInfo.leaving.sort((a , b) => {
+        return b.price - a.price;
+    })
+
+    if(localStorage.getItem('roundTrip') == 'true'){
+        flightResultsInfo.returning.sort((a , b) => {
+            return b.price - a.price;
+        })
+    }
+    
+}
+
+function updateHotels() {
+    var outer = document.getElementById('flight-results');
+    outer.innerHTML = '';
+    hotelResultsInfo.forEach((hotel) => {
+        outer.innerHTML += hotel.text;
+    })
+}
+
+function updateFlights() {
+    var outer = document.getElementById('flight-results');
+    outer.innerHTML = '';
+    flightResultsInfo.leaving.forEach((flight) => {
+        outer.innerHTML += flight.text;
+    })
+    if(localStorage.getItem('roundTrip') == 'true') {
+        flightResultsInfo.returning.forEach((flight) => {
+            outer.innerHTML += flight.text;
+        })
+    }
+}
 
 window.onload = async () => {
     // when we load the window we do the search
-    // if(!await isSameSearch()){
         console.log('search: ' + localStorage.getItem('search'))
         await search(localStorage.getItem('search'));
         // set the smaller search bar to the search which was entered
         await setResultsSearch();
-    //}
     // once the search is complete we remove the loading screen
     await deleteLoading();
 }
@@ -15,10 +317,6 @@ window.onload = async () => {
 async function setError() {
     window.location.href = 'error.html';
 }
-
-// async function isSameSearch(){
-//     return localStorage.getItem('search') == localStorage.getItem('lastSearch');
-// }
 
 async function search(text)  {
     // here we can either have a location search, a hotel search, or a flight searchs
@@ -211,7 +509,8 @@ async function setHotels(data) {
 
     var hotels = data.hotels;
 
-    for(var i = 0 ; i < hotels.length ; i++){
+    for(var i = 0 ; i < 10 ; i++){
+
         var outline = document.createElement('div');
         outline.classList.add('d-flex');
         outline.classList.add('align-items-center');
@@ -241,8 +540,15 @@ async function setHotels(data) {
         ratingPrice.classList.add('justify-content-around');
         var rating = document.createElement('p');
         rating.textContent = `Rating: ${hotels[i].rating} stars`
+
+        hotelResultsInfo[i].stars = hotels[i].rating;
+
         var price = document.createElement('p');
         price.textContent = `Price: ${hotels[i].price}/night`;
+
+        hotelResultsInfo[i].price = hotels[i].price.substring(1);
+        
+
         ratingPrice.appendChild(rating);
         ratingPrice.appendChild(price);
         hotelInfo.appendChild(ratingPrice);
@@ -254,9 +560,15 @@ async function setHotels(data) {
 
         outline.append(hotelInfo);
 
+        hotelResultsInfo[i].text = outline.outerHTML;
+
+        console.log(hotelResultsInfo)
+
         document.getElementById('flight-results').appendChild(outline);
 
     }
+    document.getElementById('hotelSort').style.display = 'block';
+    document.getElementById('flightSort').style.display = 'none';
 }
 
 async function searchflights(text) {
@@ -299,7 +611,7 @@ async function setFlights(flightsData) {
         var departFlights = flightsData.flightsLeave;
         var returnFlights = flightsData.flightsReturn;
 
-        for(var i = 0 ; i < departFlights.length && i < returnFlights.length ; i++){
+        for(var i = 0 ; i < 10 && i < departFlights.length && i < returnFlights.length ; i++){
             var outline = document.createElement('div');
             outline.classList.add('d-flex');
             outline.classList.add('align-items-center');
@@ -331,6 +643,8 @@ async function setFlights(flightsData) {
             namePrice.appendChild(price);
             flightInfo.appendChild(namePrice);
 
+            flightResultsInfo.leaving[i].price = departFlights[i].price;
+
             var seatsDuration = document.createElement('div');
             seatsDuration.classList.add('d-flex');
             seatsDuration.classList.add('justify-content-around');
@@ -340,6 +654,9 @@ async function setFlights(flightsData) {
             var duration = document.createElement('p');
             duration.textContent = `Duration ${departFlights[i].duration}hrs`
             seatsDuration.appendChild(duration);
+
+            flightResultsInfo.leaving[i].duration = departFlights[i].duration;
+
             flightInfo.appendChild(seatsDuration);
             var link = document.createElement('a');
             link.href = `http://${departFlights[i].website}`;
@@ -349,9 +666,11 @@ async function setFlights(flightsData) {
 
             outline.appendChild(flightInfo);
 
+            flightResultsInfo.leaving[i].text = outline.outerHTML;
+
             flightsLeaving.appendChild(outline);
         }
-        for(var i = 0 ; i < departFlights.length && i < returnFlights.length ; i++){
+        for(var i = 0 ; i < 10 && i < departFlights.length && i < returnFlights.length ; i++){
             var outline = document.createElement('div');
             outline.classList.add('d-flex');
             outline.classList.add('align-items-center');
@@ -380,6 +699,9 @@ async function setFlights(flightsData) {
             namePrice.appendChild(name);
             var price = document.createElement('h6');
             price.textContent = `Price: $${returnFlights[i].price}`;
+
+            flightResultsInfo.returning[i].price = returnFlights[i].price;
+
             namePrice.appendChild(price);
             flightInfo.appendChild(namePrice);
 
@@ -391,6 +713,9 @@ async function setFlights(flightsData) {
             seatsDuration.appendChild(seats);
             var duration = document.createElement('p');
             duration.textContent = `Duration ${returnFlights[i].duration}hrs`
+
+            flightResultsInfo.returning[i].duration = returnFlights[i].duration;
+
             seatsDuration.appendChild(duration);
             flightInfo.appendChild(seatsDuration);
             var link = document.createElement('a');
@@ -400,6 +725,8 @@ async function setFlights(flightsData) {
             flightInfo.appendChild(link);
 
             outline.appendChild(flightInfo);
+
+            flightResultsInfo.returning[i].text = outline.outerHTML;
 
             flightsReturning.appendChild(outline);
         }
@@ -418,7 +745,7 @@ async function setFlights(flightsData) {
         document.getElementById('flight-results').appendChild(outerDiv);
     }else{
         var flights = flightsData.flightsLeave;
-        for(var i = 0 ; i < flights.length ; i++) {
+        for(var i = 0 ; i < flights.length && i < 10 ; i++) {
             var outline = document.createElement('div');
             outline.classList.add('d-flex');
             outline.classList.add('align-items-center');
@@ -448,6 +775,9 @@ async function setFlights(flightsData) {
             namePrice.appendChild(name);
             var price = document.createElement('h6');
             price.textContent = `Price: $${flights[i].price}`;
+
+            flightResultsInfo.leaving[i].price = flights[i].price;
+
             namePrice.appendChild(price);
             flightInfo.appendChild(namePrice);
 
@@ -459,6 +789,9 @@ async function setFlights(flightsData) {
             seatsDuration.appendChild(seats);
             var duration = document.createElement('p');
             duration.textContent = `Duration ${flights[i].duration}hrs`
+
+            flightResultsInfo.leaving[i].duration = flights[i].duration;
+
             seatsDuration.appendChild(duration);
             flightInfo.appendChild(seatsDuration);
             var link = document.createElement('a');
@@ -469,9 +802,13 @@ async function setFlights(flightsData) {
 
             outline.appendChild(flightInfo);
 
+            flightResultsInfo.leaving[i].text = outline.outerHTML;
+
             document.getElementById('flight-results').appendChild(outline);
         }
     }
+    document.getElementById('hotelSort').style.display = 'none';
+    document.getElementById('flightSort').style.display = 'block';
 }
 
 // set the search bar to the correct search

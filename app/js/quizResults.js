@@ -2,9 +2,10 @@ window.onload = async () => {
     await getQuizResults(localStorage.getItem('quizResults'));
 }
 
+// get quiz recommendation 
 async function getQuizResults(text) {
     const responseQuiz = await (await fetch(`../../getresults/${text}`)).json();
-    console.log(responseQuiz);
+    // console.log(responseQuiz);
     document.getElementById('recommendName').textContent = `We Suggest You Visit ${responseQuiz.Name}`;
     for(var i = 0 ; i < 3 ; i++){
         var img = document.createElement('img');
