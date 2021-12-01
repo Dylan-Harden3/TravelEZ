@@ -193,32 +193,47 @@ let flightResultsInfo = {
 
 var sorters = document.getElementsByClassName('dropdown-item');
 
-for(var i = 0 ; i < sorters.length ; i++){
+for (var i = 0 ; i < sorters.length ; i++) {
+
     sorters[i].onclick = sortResults;
+
 }
 
 // decide which search to do based on what was clicked
 function sortResults() {
 
-    if(this.id == 'stars'){
+    if (this.id == 'stars') {
+
         sortStars();
         updateHotels();
-    }else if(this.id == 'lowtohighhotels'){
+
+    } else if (this.id == 'lowtohighhotels') {
+
         sortLowHotels();
         updateHotels();
-    }else if(this.id == 'hightolowhotels'){
+
+    } else if (this.id == 'hightolowhotels') {
+        
         sortHighHotels();
         updateHotels();
-    }else if(this.id == 'duration'){
+    
+    } else if (this.id == 'duration') {
+        
         sortDuration();
         updateFlights();
-    }else if(this.id == 'lowtohighflights'){
+    
+    } else if (this.id == 'lowtohighflights') {
+        
         sortLowFlights();
         updateFlights();
-    }else if(this.id == 'hightolowflights'){
+
+    } else if (this.id == 'hightolowflights') {
+
         sortHighFlights();
         updateFlights();
+
     }
+
 }
 
 // sorting hotels from high stars
@@ -255,10 +270,12 @@ function sortDuration() {
         return a.duration - b.duration;
     })
 
-    if(localStorage.getItem('roundTrip') == 'true'){
+    if (localStorage.getItem('roundTrip') == 'true') {
+
         flightResultsInfo.returning.sort((a , b) => {
             return a.duration - b.duration;
         })
+
     }
     
 }
@@ -270,10 +287,12 @@ function sortLowFlights() {
         return a.price - b.price;
     })
 
-    if(localStorage.getItem('roundTrip') == 'true'){
+    if (localStorage.getItem('roundTrip') == 'true') {
+
         flightResultsInfo.returning.sort((a , b) => {
             return a.price - b.price;
         })
+
     }
     
 }
@@ -286,97 +305,127 @@ function sortHighFlights() {
     })
 
     // if the search is a round trip we must also sort the returning flights
-    if(localStorage.getItem('roundTrip') == 'true'){
+    if (localStorage.getItem('roundTrip') == 'true') {
+
         flightResultsInfo.returning.sort((a , b) => {
             return b.price - a.price;
         })
+
     }
     
 }
 
 // update the hotel search results to display in newly sorted way
 function updateHotels() {
+
     var outer = document.getElementById('flight-results');
     outer.innerHTML = '';
+
     // text is stored html for the hotel so we just add all the texts
     hotelResultsInfo.forEach((hotel) => {
         outer.innerHTML += hotel.text;
     })
+
 }
 
 // update the flight search results to display in newly sorted way
 function updateFlights() {
-    // console.log(`roundTrip: ${localStorage.getItem('roundTrip')}`)
-    if(localStorage.getItem('roundTrip') == 'true'){
+    
+    if (localStorage.getItem('roundTrip') == 'true') {
+
         // if its a round trip we must update both leaving and returning flights
         let leaving = document.getElementById('flightsLeaving');
         let search = localStorage.getItem('search').split(',');
         leaving.innerHTML = `<h4>flights from: ${search[0]}<br>to: ${search[1]}<br>on ${search[2]}</h4>`;
+
         flightResultsInfo.leaving.forEach((flight) => {
             leaving.innerHTML += flight.text;
         })
+
         let returning = document.getElementById('flightsReturning');
         returning.innerHTML = `<h4>flights from: ${search[1]}<br>to: ${search[0]}<br>on ${search[3]}</h4>`;
+
         flightResultsInfo.returning.forEach((flight) => {
             returning.innerHTML += flight.text;
         })
-    }else {
+
+    } else {
+
         // 1 way trip so we just update leaving flights
         let outer = document.getElementById('flight-results');
         outer.innerHTML = '';
+
         flightResultsInfo.leaving.forEach((flight) => {
             outer.innerHTML += flight.text;
         })
+
     }
 
 }
 
 window.onload = async () => {
+
     // when we load the window we do the search
-    // console.log('search: ' + localStorage.getItem('search'))
     await search(localStorage.getItem('search'));
     // set the smaller search bar to the search which was entered
     await setResultsSearch();
     // once the search is complete we remove the loading screen
     await deleteLoading();
+
 }
 
 // if an error is encountered we take the user to the error page
 async function setError() {
+
     window.location.href = 'error.html';
+
 }
 
 // figure out type of search and act accordingly
 async function search(text)  {
+
     // here we can either have a location search, a hotel search, or a flight searchs
-    if(await isValidInput(text)){
-        if(localStorage.getItem('location-selected') == 'true') {
+    if (await isValidInput(text)) {
+
+        if (localStorage.getItem('location-selected') == 'true') {
+
             // location search
             await getHotels(text);
             await getWeather(text);
             await getTime(text);
+
             // set the sorting options to not display
             document.getElementById('hotelSort').style.display = 'none';
             document.getElementById('flightSort').style.display = 'none';
-        }else if(localStorage.getItem('hotel-selected') == 'true'){ 
+
+        } else if (localStorage.getItem('hotel-selected') == 'true') { 
+
             // hotel search
             await searchHotels(text);
-        }else {
+
+        } else {
+
             // flight search
             await searchflights(text);
+
         }
-    }else {
+
+    } else {
+
         // send the user back to the search page if they did not enter all information
         window.alert('you must enter all fields');
         window.location.href = 'search.html';
+
     }
+
 }
 
 // check if user entered all information
-async function isValidInput(search){
+async function isValidInput(search) {
 
     // since fields are separated by ',' we just check if there are any empty fields
     var params = search.split(',');
+
     params.forEach((param) => {
         if (param == '') {
             return false;
@@ -384,58 +433,82 @@ async function isValidInput(search){
     })
 
     return true;
+
 }
 
 // weather request
 async function getWeather(text) {
+
     const responseWeather = await fetch(`../../getweather/${text}`);
     const jsonWeather = await responseWeather.text();
+
     // when error is encountered on backend we send an error message back
-    if(jsonWeather.startsWith('error')){
+    if (jsonWeather.startsWith('error')) {
+
         await setError();
         return;
+
     }
+
     await setWeather(jsonWeather);
+
 }
 
 // time request
 async function getTime(text) {
+
     const responseTime = await fetch(`../../gettime/${text}`);
     const jsonTime = await responseTime.text();
+
     // when error is encountered on backend we send an error message back
     if(jsonTime.startsWith('error')){
+
         await setError();
         return;
+
     }
+
     await setTime(jsonTime);
+
 }
 
 // hotel request
 async function getHotels(text) {
+
     const responseHotels = await fetch(`../../gethotels/${text}`);
     const jsonHotels = await responseHotels.json();
     await setResults(jsonHotels);
+
 }
 
 //search Hotels
 async function searchHotels(text) {
+
     const hotelSearchResponse = await fetch(`../../searchhotels/${text}`);
     const jsonHotelSearch = await hotelSearchResponse.json();
+
     // when error is encountered on backend we send an error message back
-    if(jsonHotelSearch.error){
+    if (jsonHotelSearch.error) {
+
         await setError();
         return;
+
     }
+
     await setHotels(jsonHotelSearch);
+
 }
 
 // to set weather/time we just add the text to the corresponding paragraph
 async function setWeather(text) {
+
     var p = document.getElementById('weather-results');
     p.textContent = `In ${localStorage.getItem('search')}, ${text}`;
+
 }
 
 async function setTime(text) {
+
     var timeP = document.getElementById('time-results');
     timeP.textContent = `The local time in ${localStorage.getItem('search')} ${text}`;
     
@@ -443,16 +516,22 @@ async function setTime(text) {
 
 // set the hotels and landmarks from a location search
 async function setResults(info) {
-    if(info.error) {
+
+    if (info.error) {
+
         await setError();
         return;
+
     }
+
     var searchV = document.getElementById('search-value');
     searchV.innerHTML = `Showing results for <br>${localStorage.getItem('search')}`;
     var hotelResults = document.getElementById('hotel-results');
     var hotels = info.hotels;
+
     // iterate through all hotels, creating a card with the info for that hotel
-    for(var i = 0 ; i < hotels.length ; i++){
+    for (var i = 0 ; i < hotels.length ; i++) {
+
         var newCard = document.createElement('div');
         newCard.classList.add('card');
         newCard.classList.add('m-2');
@@ -495,8 +574,11 @@ async function setResults(info) {
         tagline.textContent = `${hotels[i].tagline}`;
         var freebies = document.createElement('h6');
         freebies.classList.add('card-text');
-        if(hotels[i].freebies != undefined){
+
+        if (hotels[i].freebies != undefined) {
+
             freebies.textContent = `${hotels[i].freebies}`;
+
         }
 
         hotelInfo.appendChild(tagline);
@@ -514,8 +596,10 @@ async function setResults(info) {
 
     var landmarkResults = document.getElementById('landmark-results');
     var landmarks = info.landmarks;
+
     // iterate through all landmarks, creating a card with the info for that hotel
-    for(var i = 0 ; i < landmarks.length ; i++){
+    for (var i = 0 ; i < landmarks.length ; i++) {
+
         var curCard = document.createElement('div');
         curCard.classList.add('card');
         curCard.classList.add('m-2');
@@ -542,10 +626,12 @@ async function setResults(info) {
 
     var hotelTitle = document.getElementById('landmark-title');
     hotelTitle.textContent = `Popular landmarks in ${localStorage.getItem('search')}`;
+
 }
 
 // set results of hotel search
 async function setHotels(data) {
+
     var params = localStorage.getItem('search').split(',');
     var searchValue = document.getElementById('search-value');
     searchValue.innerHTML = `hotels in ${params[0]}<br>check-in: ${params[1]}<br>check-out: ${params[2]}`;
@@ -553,7 +639,7 @@ async function setHotels(data) {
     var hotels = data.hotels;
 
     // get the first 10 hotels, add them to DOM in desired fassion
-    for(var i = 0 ; i < 10 ; i++){
+    for (var i = 0 ; i < 10 ; i++) {
 
         var outline = document.createElement('div');
         outline.classList.add('d-flex');
@@ -592,7 +678,6 @@ async function setHotels(data) {
 
         hotelResultsInfo[i].price = hotels[i].price.substring(1);
         
-
         ratingPrice.appendChild(rating);
         ratingPrice.appendChild(price);
         hotelInfo.appendChild(ratingPrice);
@@ -606,35 +691,43 @@ async function setHotels(data) {
 
         hotelResultsInfo[i].text = outline.outerHTML;
 
-        // console.log(hotelResultsInfo)
-
         document.getElementById('flight-results').appendChild(outline);
 
     }
+
     document.getElementById('hotelSort').style.display = 'block';
     document.getElementById('flightSort').style.display = 'none';
+
 }
 
 async function searchflights(text) {
+
     const responseFlights = await fetch(`../../getflights/${text}`);
     const jsonFlights = await responseFlights.json();
+
     // when error is encountered on backend we send an error message back
     if(jsonFlights.error){
+
         await setError();
         return;
+
     }
+
     await setFlights(jsonFlights);
+
 }
 
 // set results of flights search
 async function setFlights(flightsData) {
+
     var params = localStorage.getItem('search').split(',');
 
     var searchValue = document.getElementById('search-value');
     searchValue.innerHTML = `flights from: ${params[0]}<br>to: ${params[1]}<br>on ${params[2]}`;
 
     // round trip
-    if(flightsData.flightsReturn){
+    if (flightsData.flightsReturn) {
+
         // make an outer div to make the two columns
         var outerDiv = document.createElement('div');
         outerDiv.classList.add('d-flex');
@@ -660,7 +753,8 @@ async function setFlights(flightsData) {
         var departFlights = flightsData.flightsLeave;
         var returnFlights = flightsData.flightsReturn;
 
-        for(var i = 0 ; i < 10 && i < departFlights.length && i < returnFlights.length ; i++){
+        for (var i = 0 ; i < 10 && i < departFlights.length && i < returnFlights.length ; i++) {
+
             var outline = document.createElement('div');
             outline.classList.add('d-flex');
             outline.classList.add('align-items-center');
@@ -718,8 +812,11 @@ async function setFlights(flightsData) {
             flightResultsInfo.leaving[i].text = outline.outerHTML;
 
             flightsLeaving.appendChild(outline);
+
         }
-        for(var i = 0 ; i < 10 && i < departFlights.length && i < returnFlights.length ; i++){
+
+        for (var i = 0 ; i < 10 && i < departFlights.length && i < returnFlights.length ; i++) {
+
             var outline = document.createElement('div');
             outline.classList.add('d-flex');
             outline.classList.add('align-items-center');
@@ -778,7 +875,9 @@ async function setFlights(flightsData) {
             flightResultsInfo.returning[i].text = outline.outerHTML;
 
             flightsReturning.appendChild(outline);
+
         }
+
         var leavingTitle = document.createElement('h4');
         var returningTitle = document.createElement('h4');
 
@@ -792,10 +891,14 @@ async function setFlights(flightsData) {
         outerDiv.appendChild(flightsReturning);
 
         document.getElementById('flight-results').appendChild(outerDiv);
-    }else{
+
+    } else {
+
         // 1 way trip
         var flights = flightsData.flightsLeave;
-        for(var i = 0 ; i < flights.length && i < 10 ; i++) {
+
+        for (var i = 0 ; i < flights.length && i < 10 ; i++) {
+
             var outline = document.createElement('div');
             outline.classList.add('d-flex');
             outline.classList.add('align-items-center');
@@ -855,10 +958,14 @@ async function setFlights(flightsData) {
             flightResultsInfo.leaving[i].text = outline.outerHTML;
 
             document.getElementById('flight-results').appendChild(outline);
+
         }
+
     }
+
     document.getElementById('hotelSort').style.display = 'none';
     document.getElementById('flightSort').style.display = 'block';
+
 }
 
 // set the search bar to the correct search
@@ -867,39 +974,56 @@ async function setResultsSearch() {
     var locationSelected = localStorage.getItem('location-selected');
     var hotelSelected = localStorage.getItem('hotel-selected');
     var flightSelected = localStorage.getItem('flight-selected');
+
     // we check which search was selected and set the icon and bar to reflect that
-    if(locationSelected == 'true') {
+    if (locationSelected == 'true') {
+
         document.getElementById('search-description').textContent = 'location search';
         changeOutline('location');
         changeBar('location');
-    }else if(hotelSelected == 'true'){
+
+    } else if(hotelSelected == 'true') {
+
         document.getElementById('search-description').textContent = 'hotel search';
         changeOutline('hotel');
         changeBar('hotel');
-    }else {
+
+    } else {
+
         document.getElementById('search-description').textContent = 'flight search';
         changeOutline('flight');
         changeBar('flight');
+
     }
+
  }
 
  // set the correct icon
 function changeOutline(icon) {
+
     var icons = document.getElementsByClassName('icon');
+
     // iterate all icons and set the desired one to selected
-    for(var i = 0 ; i < icons.length ; i++){
-        if(icons[i].id != icon){
+    for (var i = 0 ; i < icons.length ; i++) {
+
+        if (icons[i].id != icon) {
+
             icons[i].classList.remove('outline-red');
-        }else {
+
+        } else {
+
             icons[i].classList.add('outline-red')
-            // console.log("icon: " + icon)
             document.getElementById('search-description').textContent = `${icon} search`;
+
         }
+
     }
+
 }
 
 // set the correct search bar
 function changeBar(type) {
+
     var realId = `${type}-search`;
 
     // get the old search bar which was selected, and set it to display: none
@@ -911,18 +1035,25 @@ function changeBar(type) {
     var newSelected = document.getElementById(realId);
     newSelected.classList.add('selected');
     newSelected.classList.remove('not-selected');
-    // console.log('type ' + type)
-    if(type == 'flight'){
+
+    if (type == 'flight') {
+
         document.getElementById('round-trip').style.display = 'block';
-    }else {
+
+    } else {
+
         document.getElementById('round-trip').style.display = 'none';
+
     }
+
 }
 
 // reset loading screen when search is complete
 async function deleteLoading() {
+
     var loading = document.getElementById('loading');
     loading.style = 'z-index: -1 !important';
     var loader = document.getElementById('loader');
     loader.style.display = 'none';
+
 }
