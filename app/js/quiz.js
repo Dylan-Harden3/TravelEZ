@@ -1,5 +1,6 @@
 // submits quiz, fills local storage with results
 async function submit() {
+
     let type, activities, weather;  // to hold values of each question
 
     // type (question 1)
@@ -35,15 +36,18 @@ async function submit() {
         weather = "n/a";
     }
 
-    if(weather == "n/a" || activities == "n/a" || type == "n/a"){
+    if (weather == "n/a" || activities == "n/a" || type == "n/a") {
         alert("You must enter all fields");
-    }else {
+    } else {
         // submitting answers
         await setResults(`${type},${activities},${weather}`);
         window.location.href = "quizResults.html";
     }
+    
 }
 // quiz results 
 async function setResults(text) {
+
     localStorage.setItem('quizResults',text);
+
 }
