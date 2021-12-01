@@ -443,6 +443,7 @@ app.get('/getflights/:search', async(req,res) => {
     res.json(combinedJSON);  // temp until good to go
 });
 
+// object to store our vacation recommendations
 let vacations = {
     type : {
         Coastal : {
@@ -743,7 +744,7 @@ let vacations = {
     }
 };
 
-
+// return quiz results
 app.get('/getresults/:search', async (req,res) => {
     try {
         let args = req.params.search.split(',');
@@ -759,6 +760,7 @@ app.get('/getresults/:search', async (req,res) => {
     }
 });
 
+// start server
 app.listen(process.env.PORT || 3000, () => {
     console.log('listening 3000')
 });
