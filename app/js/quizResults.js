@@ -1,3 +1,4 @@
+// gets quiz results from local storage
 window.onload = async () => {
     await getQuizResults(localStorage.getItem('quizResults'));
 }
@@ -7,6 +8,7 @@ async function getQuizResults(text) {
     const responseQuiz = await (await fetch(`../../getresults/${text}`)).json();
     // console.log(responseQuiz);
     document.getElementById('recommendName').textContent = `We Suggest You Visit ${responseQuiz.Name}`;
+    // create images and add to DOM
     for(var i = 0 ; i < 3 ; i++){
         var img = document.createElement('img');
         img.src = responseQuiz.images[i];
@@ -19,7 +21,7 @@ async function getQuizResults(text) {
         }
         document.getElementById('photos').appendChild(img);
     }
-    
+    // update description and airport
     document.getElementById('description').textContent = responseQuiz.description;
     document.getElementById('airport').textContent = `Nearby Airport: ${responseQuiz.airport}`;
 }
