@@ -2,62 +2,97 @@
 var icons = document.getElementsByClassName('icon');
 
 // set onclick of every icon to selectIcon
-for(var i = 0 ; i < icons.length ; i++){
+for (var i = 0 ; i < icons.length ; i++) {
+
     icons[i].onclick = selectIcon;
+
 }
 
 // change the icons
 function selectIcon() {
+
     // when an icon is clicked, first we set the local storage to reflect the change
-    if(this.id == 'location'){
+    if (this.id == 'location') {
+
         localStorage.setItem('location-selected','true');
         localStorage.setItem('hotel-selected','false');
         localStorage.setItem('flight-selected','false');
-    }else if(this.id == 'hotel'){
+
+    } else if(this.id == 'hotel') {
+
         localStorage.setItem('hotel-selected','true');
         localStorage.setItem('location-selected','false');
         localStorage.setItem('flight-selected','false');
-    }else {
+
+    } else {
+
         localStorage.setItem('flight-selected','true')
         localStorage.setItem('location-selected','false');
         localStorage.setItem('hotel-selected','false');
+
     }
+
     // now we change which icon has an outline, and change the search bar to the new search
     toggleOutline(this);
     setSearchBar(this);
+
 }
 
 // set the icon which is selected
 function toggleOutline(icon) {
+
     // iterate all the icons and if the icon is the one which was selected add an outline
-    for(var i = 0 ; i < icons.length ; i++){
-        if(icons[i].id != icon.id){
+    for (var i = 0 ; i < icons.length ; i++) {
+
+        if (icons[i].id != icon.id) {
+
             icons[i].classList.remove('outline-red');
-            if(icons[i].previousElementSibling){
+
+            if (icons[i].previousElementSibling) {
+
                 icons[i].previousElementSibling.classList.remove('font-weight-bold');
+
             }
-        }else {
+
+        } else {
+
             icons[i].classList.add('outline-red')
+
             // if we are on search page make search text bold
-            if(icons[i].previousElementSibling){
+            if (icons[i].previousElementSibling) {
+
                 icons[i].previousElementSibling.classList.add('font-weight-bold');
+
             }
+
             // if we are on result page update search text
-            if(window.location.href.split('/').at(-1) == 'result.html?'){
+            if (window.location.href.split('/').at(-1) == 'result.html?') {
+
                 document.getElementById('search-description').textContent = `${icons[i].id} search`;
+
             }
+
         }
+
     }
+
         var roundTrip = document.getElementById('round-trip');
-        if(localStorage.getItem('flight-selected') == 'true'){
+
+        if (localStorage.getItem('flight-selected') == 'true') {
+
             roundTrip.style.display = 'block';
-        }else {
+
+        } else {
+
             roundTrip.style.display = 'none';
+
         }
+
 }
 
 // change the search bar
 function setSearchBar(icon) {
+
     var realId = `${icon.id}-search`;
 
     // we get all selected elements, and make them not selected (display: none)
@@ -69,90 +104,130 @@ function setSearchBar(icon) {
     var newSelected = document.getElementById(realId);
     newSelected.classList.add('selected');
     newSelected.classList.remove('not-selected');
+
 }
 
 // each time the window is loaded we set the search to location by default
 window.onload = () => {
+
     var locationSelected = localStorage.getItem('location-selected');
     var hotelSelected = localStorage.getItem('hotel-selected');
     var flightSelected = localStorage.getItem('flight-selected');
-    if(!hotelSelected || locationSelected || flightSelected){
+
+    if (!hotelSelected || locationSelected || flightSelected) {
+
         localStorage.setItem('location-selected','true');
         localStorage.setItem('hotel-selected','false');
         localStorage.setItem('flight-selected','false');
+
     }
-        document.getElementById('round-trip').style.display = 'none';
+
+    document.getElementById('round-trip').style.display = 'none';
+
 }
 
 // get all the input forms and add setSearch onclick
 var searchBars = document.getElementsByClassName('input-group');
 
-for(var i = 0 ; i < searchBars.length ; i++) { 
+for (var i = 0 ; i < searchBars.length ; i++) { 
+
     searchBars[i].onclick = setSearch;
+
 }
 
 async function setSearch() {
+
     // get the search value and set the locale storage to reflect
     var searchFields = document.getElementsByClassName('txt');
     var search = "";
     var locationSeach = localStorage.getItem('location-selected');
     var flightSelected = localStorage.getItem('flight-selected');
-    // iterate all search fields, if the search field was selected then we use its content
-    for(var i = 0 ; i < searchFields.length ; i++) {
-        if(searchFields[i].parentElement.classList.contains('selected')){
 
-            if(i == searchFields.length-1) {
+    // iterate all search fields, if the search field was selected then we use its content
+    for (var i = 0 ; i < searchFields.length ; i++) {
+
+        if (searchFields[i].parentElement.classList.contains('selected')) {
+
+            if (i == searchFields.length-1) {
+
                 search += searchFields[i].value;
-            }else {
-                if(locationSeach == 'true'){
+
+            } else {
+
+                if (locationSeach == 'true') {
+
                     search += searchFields[i].value;
-                }else {
+
+                } else {
+
                     search += searchFields[i].value + ",";
+
                 }
+
             }
+
         }
+
     }
-    if(search.charAt(search.length-1) == ','){
-        if(search.split(',').filter(x => x == '').length == 1){
-            console.log('search before change ' + search)
+
+    if (search.charAt(search.length-1) == ',') {
+
+        if (search.split(',').filter(x => x == '').length == 1) {
+
             search = search.substr(0,search.length-1);
-            console.log('search after change ' + search)
+
         }
+
     }
+
     // now we set the search in local storage so we can access it when loading the results page
     localStorage.setItem('lastSearch',localStorage.getItem('search'));
     localStorage.setItem('search',search);
+
 }
 
 function toggleRoundTrip() {
-    if(document.getElementById('roundTripSelector').checked){
+
+    if (document.getElementById('roundTripSelector').checked) {
+
         document.getElementById('roundTripInput').style.display = 'block';
         localStorage.setItem('roundTrip','true');
-    }else {
+
+    } else {
+
         document.getElementById('roundTripInput').style.display = 'none';
         localStorage.setItem('roundTrip','false');
+
     }
+
 }
 
 // goes to the quiz results page with the vacation entered displayed
 function viewVacation(num) {
+
     let text;
+
     switch(num) {
+
         case 0:
             text = "Coastal,Sightseeing,Cold";
             break;
+
         case 1:
             text = "Continental,Leisure,Hot";
             break;
+
         case 2:
             text = "Coastal,Sightseeing,Temperate";
             break;
+
         default:
             console.log("none selected");
+
     }
-    console.log(num);
-    console.log(text);
+
     // getting info about city
     localStorage.setItem('quizResults', text);
     window.location.href = "quizResults.html";
+    
 }
