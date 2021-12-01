@@ -38,10 +38,11 @@ function toggleOutline(icon) {
             }
         }else {
             icons[i].classList.add('outline-red')
+            // if we are on search page make search text bold
             if(icons[i].previousElementSibling){
                 icons[i].previousElementSibling.classList.add('font-weight-bold');
             }
-            
+            // if we are on result page update search text
             if(window.location.href.split('/').at(-1) == 'result.html?'){
                 document.getElementById('search-description').textContent = `${icons[i].id} search`;
             }
