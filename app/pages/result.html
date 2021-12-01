@@ -14,6 +14,7 @@
       <div class="loading" id="loading">
         <div class="loader" id="loader"></div>
       </div>
+      <!-- Navigation -->
         <nav class="navbar navbar-expand-sm bg-white opacity-90 navbar-dark sticky-top py-3">
             <div class="container">
                 <a class="text-red nav-text" href="../index.html">
@@ -37,17 +38,20 @@
               </div>
             </div>
           </nav>
+          <!-- Search section -->
           <div class="container d-flex justify-content-around">
             <div class="jumbotron mt-2 rounded-3 text-center w-100">
               <div class="d-md-flex m-3 justify-content-around align-items-center">
                 <div class="d-flex flex-column">
                   <p id="search-description"></p>
+                  <!-- Search icons -->
                   <div class="d-flex justify-content-center align-items-center icon-group m-3">
                     <img src="../img/icons/location.png" width="40px" height="40px" alt="" class="outline-red icon" id="location">
                     <img src="../img/icons/hotel.png" width="40px" height="40px" alt="" class="icon" id="hotel">
                     <img src="../img/icons/airplane.png" width="40px" height="40px" alt="" class="icon" id="flight">
                   </div>
                 </div>
+                <!-- Search bars -->
                   <form class="input-group selected" id="location-search" action="result.html">
                       <input type="text" class="form-control border-navy rounded txt" placeholder="Enter Destination City">
                       <input type="submit" class="btn bg-red btn-sm text-white ml-1" value="Search">
@@ -75,11 +79,13 @@
                   </div>
               </div>
           </div>
+    
           <div class="jumbotron rounded-3 text-center d-flex flex-column align-items-center justify-content-center mt-2 ml-5 quiz-link">
             <h5 class="m-1 quiz-link">Out of ideas?</h5>
             <a href="quiz.html" class="btn btn-sm bg-grey text-navy m-1 quiz-link">Take Our Quiz</a>
           </div>
       </div>
+      <!-- Search Results -->
       <div class="container">
         <div class="row">
           <div class="col" id="filler">
@@ -88,15 +94,10 @@
             </div>
           </div>
           <div class="col">
-            <!-- <div class="jumbotron">
-              <form action="" class="input-group text-center">
-                <input type="text" class="form-control" placeholder="search results">
-                <input type="submit" class="btn btn-sm bg-grey" value="search">
-              </form>
-            </div> -->
           </div>
           <div class="col" id='sortingZ'>
             <div class="jumbotron bg-navy text-right">
+              <!-- Sorting buttons -->
               <div class="dropdown w-100" id="hotelSort">
                 <button class="btn bg-red text-white dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                   Sort Hotels
