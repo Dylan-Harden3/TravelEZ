@@ -1,3 +1,4 @@
+// objects to store hotel search and flight search results (for sorting)
 let hotelResultsInfo = [
     {
         id : 0,
@@ -188,12 +189,15 @@ let flightResultsInfo = {
     ]
 };
 
+// add sorting event to dropdown menus
+
 var sorters = document.getElementsByClassName('dropdown-item');
 
 for(var i = 0 ; i < sorters.length ; i++){
     sorters[i].onclick = sortResults;
 }
 
+// decide which search to do based on what was clicked
 function sortResults() {
 
     if(this.id == 'stars'){
@@ -217,6 +221,7 @@ function sortResults() {
     }
 }
 
+// sorting hotels from high stars
 function sortStars() {
 
     hotelResultsInfo.sort((a , b) => {
@@ -225,6 +230,7 @@ function sortStars() {
 
 }
 
+// sorting hotels by low price
 function sortLowHotels() {
 
     hotelResultsInfo.sort((a , b) => {
@@ -233,6 +239,7 @@ function sortLowHotels() {
 
 }
 
+// sorting hotels by high price
 function sortHighHotels() {
 
     hotelResultsInfo.sort((a , b) => {
@@ -241,6 +248,7 @@ function sortHighHotels() {
 
 }
 
+// sorting flights by shortest duration
 function sortDuration() {
 
     flightResultsInfo.leaving.sort((a , b) => {
@@ -255,6 +263,7 @@ function sortDuration() {
     
 }
 
+// sorting flights by lowest price
 function sortLowFlights() {
 
     flightResultsInfo.leaving.sort((a , b) => {
@@ -269,12 +278,14 @@ function sortLowFlights() {
     
 }
 
+// sorting flights by highest price
 function sortHighFlights() {
 
     flightResultsInfo.leaving.sort((a , b) => {
         return b.price - a.price;
     })
 
+    // if the search is a round trip we must also sort the returning flights
     if(localStorage.getItem('roundTrip') == 'true'){
         flightResultsInfo.returning.sort((a , b) => {
             return b.price - a.price;
@@ -283,17 +294,21 @@ function sortHighFlights() {
     
 }
 
+// update the hotel search results to display in newly sorted way
 function updateHotels() {
     var outer = document.getElementById('flight-results');
     outer.innerHTML = '';
+    // text is stored html for the hotel so we just add all the texts
     hotelResultsInfo.forEach((hotel) => {
         outer.innerHTML += hotel.text;
     })
 }
 
+// update the flight search results to display in newly sorted way
 function updateFlights() {
-    console.log(`roundTrip: ${localStorage.getItem('roundTrip')}`)
+    // console.log(`roundTrip: ${localStorage.getItem('roundTrip')}`)
     if(localStorage.getItem('roundTrip') == 'true'){
+        // if its a round trip we must update both leaving and returning flights
         let leaving = document.getElementById('flightsLeaving');
         let search = localStorage.getItem('search').split(',');
         leaving.innerHTML = `<h4>flights from: ${search[0]}<br>to: ${search[1]}<br>on ${search[2]}</h4>`;
@@ -306,6 +321,7 @@ function updateFlights() {
             returning.innerHTML += flight.text;
         })
     }else {
+        // 1 way trip so we just update leaving flights
         let outer = document.getElementById('flight-results');
         outer.innerHTML = '';
         flightResultsInfo.leaving.forEach((flight) => {
@@ -317,47 +333,56 @@ function updateFlights() {
 
 window.onload = async () => {
     // when we load the window we do the search
-        console.log('search: ' + localStorage.getItem('search'))
-        await search(localStorage.getItem('search'));
-        // set the smaller search bar to the search which was entered
-        await setResultsSearch();
-        // once the search is complete we remove the loading screen
-        await deleteLoading();
-        //localStorage.setItem('roundTrip','false');
+    // console.log('search: ' + localStorage.getItem('search'))
+    await search(localStorage.getItem('search'));
+    // set the smaller search bar to the search which was entered
+    await setResultsSearch();
+    // once the search is complete we remove the loading screen
+    await deleteLoading();
 }
 
+// if an error is encountered we take the user to the error page
 async function setError() {
     window.location.href = 'error.html';
 }
 
+// figure out type of search and act accordingly
 async function search(text)  {
     // here we can either have a location search, a hotel search, or a flight searchs
     if(await isValidInput(text)){
         if(localStorage.getItem('location-selected') == 'true') {
+            // location search
             await getHotels(text);
             await getWeather(text);
             await getTime(text);
+            // set the sorting options to not display
             document.getElementById('hotelSort').style.display = 'none';
             document.getElementById('flightSort').style.display = 'none';
         }else if(localStorage.getItem('hotel-selected') == 'true'){ 
+            // hotel search
             await searchHotels(text);
         }else {
+            // flight search
             await searchflights(text);
         }
     }else {
+        // send the user back to the search page if they did not enter all information
         window.alert('you must enter all fields');
         window.location.href = 'search.html';
     }
 }
 
+// check if user entered all information
 async function isValidInput(search){
 
+    // since fields are separated by ',' we just check if there are any empty fields
     var params = search.split(',');
-    for(var i = 0 ; i < params.length ; i++){
-        if(params[i] == ''){
+    params.forEach((param) => {
+        if (param == '') {
             return false;
         }
-    }
+    })
+
     return true;
 }
 
@@ -365,6 +390,7 @@ async function isValidInput(search){
 async function getWeather(text) {
     const responseWeather = await fetch(`../../getweather/${text}`);
     const jsonWeather = await responseWeather.text();
+    // when error is encountered on backend we send an error message back
     if(jsonWeather.startsWith('error')){
         await setError();
         return;
@@ -376,6 +402,7 @@ async function getWeather(text) {
 async function getTime(text) {
     const responseTime = await fetch(`../../gettime/${text}`);
     const jsonTime = await responseTime.text();
+    // when error is encountered on backend we send an error message back
     if(jsonTime.startsWith('error')){
         await setError();
         return;
@@ -394,6 +421,7 @@ async function getHotels(text) {
 async function searchHotels(text) {
     const hotelSearchResponse = await fetch(`../../searchhotels/${text}`);
     const jsonHotelSearch = await hotelSearchResponse.json();
+    // when error is encountered on backend we send an error message back
     if(jsonHotelSearch.error){
         await setError();
         return;
@@ -516,6 +544,7 @@ async function setResults(info) {
     hotelTitle.textContent = `Popular landmarks in ${localStorage.getItem('search')}`;
 }
 
+// set results of hotel search
 async function setHotels(data) {
     var params = localStorage.getItem('search').split(',');
     var searchValue = document.getElementById('search-value');
@@ -523,6 +552,7 @@ async function setHotels(data) {
 
     var hotels = data.hotels;
 
+    // get the first 10 hotels, add them to DOM in desired fassion
     for(var i = 0 ; i < 10 ; i++){
 
         var outline = document.createElement('div');
@@ -576,7 +606,7 @@ async function setHotels(data) {
 
         hotelResultsInfo[i].text = outline.outerHTML;
 
-        console.log(hotelResultsInfo)
+        // console.log(hotelResultsInfo)
 
         document.getElementById('flight-results').appendChild(outline);
 
@@ -588,6 +618,7 @@ async function setHotels(data) {
 async function searchflights(text) {
     const responseFlights = await fetch(`../../getflights/${text}`);
     const jsonFlights = await responseFlights.json();
+    // when error is encountered on backend we send an error message back
     if(jsonFlights.error){
         await setError();
         return;
@@ -595,12 +626,14 @@ async function searchflights(text) {
     await setFlights(jsonFlights);
 }
 
+// set results of flights search
 async function setFlights(flightsData) {
     var params = localStorage.getItem('search').split(',');
 
     var searchValue = document.getElementById('search-value');
     searchValue.innerHTML = `flights from: ${params[0]}<br>to: ${params[1]}<br>on ${params[2]}`;
 
+    // round trip
     if(flightsData.flightsReturn){
         // make an outer div to make the two columns
         var outerDiv = document.createElement('div');
@@ -760,6 +793,7 @@ async function setFlights(flightsData) {
 
         document.getElementById('flight-results').appendChild(outerDiv);
     }else{
+        // 1 way trip
         var flights = flightsData.flightsLeave;
         for(var i = 0 ; i < flights.length && i < 10 ; i++) {
             var outline = document.createElement('div');
@@ -858,7 +892,7 @@ function changeOutline(icon) {
             icons[i].classList.remove('outline-red');
         }else {
             icons[i].classList.add('outline-red')
-            console.log("icon: " + icon)
+            // console.log("icon: " + icon)
             document.getElementById('search-description').textContent = `${icon} search`;
         }
     }
@@ -877,7 +911,7 @@ function changeBar(type) {
     var newSelected = document.getElementById(realId);
     newSelected.classList.add('selected');
     newSelected.classList.remove('not-selected');
-    console.log('type ' + type)
+    // console.log('type ' + type)
     if(type == 'flight'){
         document.getElementById('round-trip').style.display = 'block';
     }else {
@@ -885,6 +919,7 @@ function changeBar(type) {
     }
 }
 
+// reset loading screen when search is complete
 async function deleteLoading() {
     var loading = document.getElementById('loading');
     loading.style = 'z-index: -1 !important';
