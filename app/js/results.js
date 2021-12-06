@@ -202,6 +202,8 @@ for (var i = 0 ; i < sorters.length ; i++) {
 // decide which search to do based on what was clicked
 function sortResults() {
 
+    console.log(hotelResultsInfo)
+
     if (this.id == 'stars') {
 
         sortStars();
@@ -676,7 +678,7 @@ async function setHotels(data) {
         var price = document.createElement('p');
         price.textContent = `Price: ${hotels[i].price}/night`;
 
-        hotelResultsInfo[i].price = hotels[i].price.substring(1);
+        hotelResultsInfo[i].price = parseInt(hotels[i].price.substring(1).replace(',',''));
         
         ratingPrice.appendChild(rating);
         ratingPrice.appendChild(price);
