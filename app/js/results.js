@@ -441,6 +441,10 @@ async function isValidInput(search) {
 // weather request
 async function getWeather(text) {
 
+    /*
+    *********************************
+    *** REMOVED DUE TO EXPIRED KEY***
+    ********************************* 
     const responseWeather = await fetch(`../../getweather/${text}`);
     const jsonWeather = await responseWeather.text();
 
@@ -454,10 +458,18 @@ async function getWeather(text) {
 
     await setWeather(jsonWeather);
 
+    */
+
 }
 
 // time request
 async function getTime(text) {
+
+    /*
+
+    *********************************
+    ***REMOVED DUE TO EXPIRED KEY***
+    ********************************* 
 
     const responseTime = await fetch(`../../gettime/${text}`);
     const jsonTime = await responseTime.text();
@@ -471,7 +483,7 @@ async function getTime(text) {
     }
 
     await setTime(jsonTime);
-
+    */
 }
 
 // hotel request

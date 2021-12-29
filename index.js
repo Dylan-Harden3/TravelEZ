@@ -8,7 +8,7 @@ app.use(express.static('app'))
 // get weather from the weather api
 app.get('/getweather/:search', async (req,res) => {
 
-    // attempting to get flights, if error is thrown then catch and return {"error": <error thrown>}
+    // attempting to get weather, if error is thrown then catch and return {"error": <error thrown>}
     try {
 
         var search = `https://api.worldweatheronline.com/premium/v1/weather.ashx?q=${req.params.search}&key=768a046de2124a9892f160500212610&date=today&format=json&fx=no&mca=no`;
@@ -29,7 +29,7 @@ app.get('/getweather/:search', async (req,res) => {
 // get time from the timezone api
 app.get('/gettime/:search', async (req,res) => {
 
-    // attempting to get flights, if error is thrown then catch and return {"error": <error thrown>}
+    // attempting to get time, if error is thrown then catch and return {"error": <error thrown>}
     try {
 
         var search = `https://api.worldweatheronline.com/premium/v1/tz.ashx?key=768a046de2124a9892f160500212610&q=${req.params.search}&format=json`;
